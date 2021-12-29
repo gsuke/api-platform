@@ -24,7 +24,7 @@ namespace Gsuke.ApiPlatform.Repositories
             {
                 while (reader.Read())
                 {
-                    result.Append($" {reader["id"]}, {reader["url"]} ");
+                    result.Append($" {reader["url"]}, {reader["data_schema"]} \n");
                 }
             }
 
