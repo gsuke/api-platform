@@ -1,11 +1,11 @@
-DROP TABLE IF EXISTS resource;
-CREATE TABLE IF NOT EXISTS resource (
+DROP TABLE IF EXISTS resources;
+CREATE TABLE IF NOT EXISTS resources (
     id uuid PRIMARY KEY,
     url varchar(32)
 );
 INSERT
     INTO
-    resource (
+    resources (
         id
         , url
     )
