@@ -2,10 +2,10 @@ namespace Gsuke.ApiPlatform.Repositories
 {
     public class ResourceRepository : IResourceRepository
     {
-        private readonly ILogger<IResourceRepository> _logger;
+        private readonly ILogger<ResourceRepository> _logger;
         private readonly IConfiguration _config;
 
-        public ResourceRepository(ILogger<IResourceRepository> logger, IConfiguration config)
+        public ResourceRepository(ILogger<ResourceRepository> logger, IConfiguration config)
         {
             _logger = logger;
             _config = config;
@@ -13,7 +13,7 @@ namespace Gsuke.ApiPlatform.Repositories
 
         public string GetResourceList()
         {
-            return _config["RdbConnectionStrings"];
+            return _config["RdbConnectionString"];
         }
     }
 }
