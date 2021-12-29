@@ -18,6 +18,6 @@ public class ManageController : ControllerBase
     [HttpGet]
     public string Get()
     {
-        return _config["Logging:LogLevel:Default"];
+        return _config["RdbConnectionStrings"];
     }
 }
