@@ -1,3 +1,6 @@
+using System.Text;
+using Npgsql;
+
 namespace Gsuke.ApiPlatform.Repositories
 {
     public class ResourceRepository : IResourceRepository
@@ -13,7 +16,24 @@ namespace Gsuke.ApiPlatform.Repositories
 
         public string GetResourceList()
         {
-            return _config["RdbConnectionString"];
+            var sql = "SELECT * FROM resources;";
+            var result = new StringBuilder();
+
+            using (var connection = new NpgsqlConnection(_config["RdbConnectionString"]))
+            using (var command = new NpgsqlCommand(sql, connection))
+            {
+                connection.Open();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result.Append($" {reader["id"]}, {reader["url"]} ");
+                    }
+                }
+            }
+
+            return result.ToString();
         }
     }
 }
