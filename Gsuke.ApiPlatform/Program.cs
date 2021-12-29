@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 // DI
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
+builder.Services.AddScoped<IRdbConnection, RdbConnection>();
 
 var app = builder.Build();
 

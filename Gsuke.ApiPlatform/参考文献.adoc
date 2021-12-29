@@ -3,3 +3,5 @@
 * ASPとPostgresを接続する方法 https://mebee.info/2021/06/03/post-28973/
 
 * DI注入の方法 https://docs.microsoft.com/ja-jp/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0
+
+* Npgsql公式 https://www.npgsql.org/doc/index.html

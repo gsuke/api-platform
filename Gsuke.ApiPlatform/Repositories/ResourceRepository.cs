@@ -6,12 +6,13 @@ namespace Gsuke.ApiPlatform.Repositories
     public class ResourceRepository : IResourceRepository
     {
         private readonly ILogger<ResourceRepository> _logger;
-        private readonly IConfiguration _config;
 
-        public ResourceRepository(ILogger<ResourceRepository> logger, IConfiguration config)
+        private readonly IRdbConnection _conn;
+
+        public ResourceRepository(ILogger<ResourceRepository> logger, IRdbConnection conn)
         {
             _logger = logger;
-            _config = config;
+            _conn = conn;
         }
 
         public string GetResourceList()
@@ -19,17 +20,11 @@ namespace Gsuke.ApiPlatform.Repositories
             var sql = "SELECT * FROM resources;";
             var result = new StringBuilder();
 
-            using (var connection = new NpgsqlConnection(_config["RdbConnectionString"]))
-            using (var command = new NpgsqlCommand(sql, connection))
+            using (var reader = _conn.Command(sql).ExecuteReader())
             {
-                connection.Open();
-
-                using (var reader = command.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        result.Append($" {reader["id"]}, {reader["url"]} ");
-                    }
+                    result.Append($" {reader["id"]}, {reader["url"]} ");
                 }
             }
 
