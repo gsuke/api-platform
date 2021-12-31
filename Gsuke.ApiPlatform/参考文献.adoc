@@ -5,3 +5,5 @@
 * DI注入の方法 https://docs.microsoft.com/ja-jp/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0
 
 * Npgsql公式 https://www.npgsql.org/doc/index.html
+
+* Dapper + Npgsql で SELECTする https://mebee.info/2021/06/14/post-35943/
