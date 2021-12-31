@@ -4,6 +4,6 @@ namespace Gsuke.ApiPlatform.Repositories
 {
     public interface IResourceRepository
     {
-        string GetResourceList();
+        string GetList();
     }
 }

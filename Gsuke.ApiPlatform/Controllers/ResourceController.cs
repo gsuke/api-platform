@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Gsuke.ApiPlatform.Repositories;
+using Gsuke.ApiPlatform.Services;
 
 namespace Gsuke.ApiPlatform.Controllers;
 
@@ -9,18 +9,18 @@ public class ResourceController : ControllerBase
 {
     private readonly ILogger<ResourceController> _logger;
     private readonly IConfiguration _config;
-    private readonly IResourceRepository _resourceRepository;
+    private readonly IResourceService _service;
 
-    public ResourceController(ILogger<ResourceController> logger, IConfiguration config, IResourceRepository resourceRepository)
+    public ResourceController(ILogger<ResourceController> logger, IConfiguration config, IResourceService resourceService)
     {
         _logger = logger;
         _config = config;
-        _resourceRepository = resourceRepository;
+        _service = resourceService;
     }
 
     [HttpGet]
-    public string Get()
+    public string GetList()
     {
-        return _resourceRepository.GetResourceList();
+        return _service.GetList();
     }
 }

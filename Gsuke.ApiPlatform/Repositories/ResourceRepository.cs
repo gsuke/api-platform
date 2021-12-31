@@ -15,7 +15,7 @@ namespace Gsuke.ApiPlatform.Repositories
             _conn = conn;
         }
 
-        public string GetResourceList()
+        public string GetList()
         {
             var sql = "SELECT * FROM resources;";
             var result = new StringBuilder();

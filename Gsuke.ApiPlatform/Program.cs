@@ -1,4 +1,5 @@
 using Gsuke.ApiPlatform.Repositories;
+using Gsuke.ApiPlatform.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 // DI
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
+builder.Services.AddScoped<IResourceService, ResourceService>();
 builder.Services.AddScoped<IRdbConnection, RdbConnection>();
 
 var app = builder.Build();
