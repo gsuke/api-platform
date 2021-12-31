@@ -1,5 +1,7 @@
 using System.Text;
-using Npgsql;
+using System.Data;
+using Dapper;
+using Gsuke.ApiPlatform.Models;
 
 namespace Gsuke.ApiPlatform.Repositories
 {
@@ -7,28 +9,18 @@ namespace Gsuke.ApiPlatform.Repositories
     {
         private readonly ILogger<ResourceRepository> _logger;
 
-        private readonly IRdbConnection _conn;
+        private readonly IDbConnection _conn;
 
-        public ResourceRepository(ILogger<ResourceRepository> logger, IRdbConnection conn)
+        public ResourceRepository(ILogger<ResourceRepository> logger, IDbConnection conn)
         {
             _logger = logger;
             _conn = conn;
         }
 
-        public string GetList()
+        public IEnumerable<Resource> GetList()
         {
             var sql = "SELECT * FROM resources;";
-            var result = new StringBuilder();
-
-            using (var reader = _conn.Command(sql).ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    result.Append($" {reader["url"]}, {reader["data_schema"]} \n");
-                }
-            }
-
-            return result.ToString();
+            return _conn.Query<Resource>(sql);
         }
     }
 }

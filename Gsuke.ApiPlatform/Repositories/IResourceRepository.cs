@@ -1,9 +1,10 @@
 using System;
+using Gsuke.ApiPlatform.Models;
 
 namespace Gsuke.ApiPlatform.Repositories
 {
     public interface IResourceRepository
     {
-        string GetList();
+        IEnumerable<Resource> GetList();
     }
 }

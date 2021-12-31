@@ -1,9 +1,9 @@
-using System;
+using Gsuke.ApiPlatform.Models;
 
 namespace Gsuke.ApiPlatform.Services
 {
     public interface IResourceService
     {
-        string GetList();
+        IEnumerable<Resource> GetList();
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Gsuke.ApiPlatform.Repositories;
+using Gsuke.ApiPlatform.Models;
 
 namespace Gsuke.ApiPlatform.Services;
 
@@ -15,7 +16,7 @@ public class ResourceService : IResourceService
     }
 
     [HttpGet]
-    public string GetList()
+    public IEnumerable<Resource> GetList()
     {
         return _repository.GetList();
     }

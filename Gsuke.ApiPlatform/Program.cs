@@ -1,5 +1,7 @@
 using Gsuke.ApiPlatform.Repositories;
 using Gsuke.ApiPlatform.Services;
+using Npgsql;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,9 @@ builder.Services.AddSwaggerGen();
 // DI
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
 builder.Services.AddScoped<IResourceService, ResourceService>();
-builder.Services.AddScoped<IRdbConnection, RdbConnection>();
+builder.Services.AddScoped<IDbConnection>(
+    provider => new NpgsqlConnection(builder.Configuration["RdbConnectionString"])
+);
 
 var app = builder.Build();
 

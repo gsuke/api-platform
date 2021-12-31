@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Gsuke.ApiPlatform.Services;
+using Gsuke.ApiPlatform.Models;
 
 namespace Gsuke.ApiPlatform.Controllers;
 
@@ -19,8 +20,8 @@ public class ResourceController : ControllerBase
     }
 
     [HttpGet]
-    public string GetList()
+    public ActionResult<List<Resource>> GetList()
     {
-        return _service.GetList();
+        return _service.GetList().ToList();
     }
 }
