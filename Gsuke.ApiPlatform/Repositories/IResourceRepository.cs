@@ -7,5 +7,6 @@ namespace Gsuke.ApiPlatform.Repositories
         IEnumerable<Resource> GetList();
         Resource Get(string url);
         bool Exists(string url);
+        int Delete(string url);
     }
 }

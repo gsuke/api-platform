@@ -33,4 +33,15 @@ public class ResourceController : ControllerBase
         }
         return _service.Get(url);
     }
+
+    [HttpDelete("{url}")]
+    public IActionResult Delete(string url)
+    {
+        if (!_service.Exists(url))
+        {
+            return NotFound();
+        }
+        _service.Delete(url);
+        return NoContent();
+    }
 }

@@ -10,4 +10,6 @@
 
 * Dapperを使ってマッピングする方法(ケースの変換など) https://webbibouroku.com/Blog/Article/dapper
 
-* Dapperでクエリを発行する方法 https://pg-life.net/csharp/dapper/
+* Dapperで様々なクエリを発行する方法 https://pg-life.net/csharp/dapper/
+
+* ASP.NET 6 でWebAPIを作るときの公式サンプル https://docs.microsoft.com/ja-jp/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio

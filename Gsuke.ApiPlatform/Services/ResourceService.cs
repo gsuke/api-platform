@@ -28,4 +28,13 @@ public class ResourceService : IResourceService
     {
         return _repository.Exists(url);
     }
+
+    public void Delete(string url)
+    {
+        int count = _repository.Delete(url);
+        if (count != 1)
+        {
+            throw new Exception();
+        }
+    }
 }

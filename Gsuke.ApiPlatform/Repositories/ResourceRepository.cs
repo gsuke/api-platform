@@ -51,5 +51,18 @@ SELECT
             var param = new { url = url };
             return _conn.QueryFirstOrDefault<bool>(sql, param);
         }
+
+        public int Delete(string url)
+        {
+            var sql = @"
+DELETE
+FROM
+    resources
+WHERE
+    url = @url
+";
+            var param = new { url = url };
+            return _conn.Execute(sql, param);
+        }
     }
 }
