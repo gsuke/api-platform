@@ -9,13 +9,11 @@ namespace Gsuke.ApiPlatform.Controllers;
 public class ResourceController : ControllerBase
 {
     private readonly ILogger<ResourceController> _logger;
-    private readonly IConfiguration _config;
     private readonly IResourceService _service;
 
-    public ResourceController(ILogger<ResourceController> logger, IConfiguration config, IResourceService resourceService)
+    public ResourceController(ILogger<ResourceController> logger, IResourceService resourceService)
     {
         _logger = logger;
-        _config = config;
         _service = resourceService;
     }
 

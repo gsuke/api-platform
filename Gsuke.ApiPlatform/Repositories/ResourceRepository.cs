@@ -9,7 +9,6 @@ namespace Gsuke.ApiPlatform.Repositories
     public class ResourceRepository : IResourceRepository
     {
         private readonly ILogger<ResourceRepository> _logger;
-
         private readonly IDbConnection _conn;
 
         public ResourceRepository(ILogger<ResourceRepository> logger, IDbConnection conn)
