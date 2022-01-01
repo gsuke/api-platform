@@ -24,11 +24,6 @@ public class ResourceService : IResourceService
         return _repository.Get(url);
     }
 
-    public bool Exists(string url)
-    {
-        return _repository.Exists(url);
-    }
-
     public void Delete(string url)
     {
         int count = _repository.Delete(url);
@@ -41,5 +36,10 @@ public class ResourceService : IResourceService
     public void Create(Resource resource)
     {
         _repository.Create(resource);
+    }
+
+    private bool Exists(string url)
+    {
+        return _repository.Exists(url);
     }
 }
