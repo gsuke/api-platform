@@ -37,4 +37,9 @@ public class ResourceService : IResourceService
             throw new Exception();
         }
     }
+
+    public void Create(Resource resource)
+    {
+        _repository.Create(resource);
+    }
 }

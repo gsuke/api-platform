@@ -8,5 +8,6 @@ namespace Gsuke.ApiPlatform.Services
         Resource Get(string url);
         bool Exists(string url);
         void Delete(string url);
+        void Create(Resource resource);
     }
 }

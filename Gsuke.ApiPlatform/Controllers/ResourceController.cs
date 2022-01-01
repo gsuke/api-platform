@@ -44,4 +44,11 @@ public class ResourceController : ControllerBase
         _service.Delete(url);
         return NoContent();
     }
+
+    [HttpPost]
+    public IActionResult Create(Resource resource)
+    {
+        // TODO: メソッドの構成を練り直す
+        return NoContent();
+    }
 }

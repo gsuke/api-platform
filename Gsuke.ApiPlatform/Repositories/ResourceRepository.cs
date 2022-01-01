@@ -64,5 +64,24 @@ WHERE
             var param = new { url = url };
             return _conn.Execute(sql, param);
         }
+
+        public int Create(Resource resource)
+        {
+            var sql = @"
+INSERT
+    INTO
+    resources
+    (
+        url
+        , data_schema
+    )
+VALUES
+(
+    @Url
+    , @DataSchema
+)
+";
+            return _conn.Execute(sql, resource);
+        }
     }
 }

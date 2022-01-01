@@ -8,5 +8,6 @@ namespace Gsuke.ApiPlatform.Repositories
         Resource Get(string url);
         bool Exists(string url);
         int Delete(string url);
+        int Create(Resource resource);
     }
 }
