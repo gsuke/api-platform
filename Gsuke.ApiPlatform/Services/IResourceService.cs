@@ -6,5 +6,6 @@ namespace Gsuke.ApiPlatform.Services
     {
         IEnumerable<Resource> GetList();
         Resource Get(string url);
+        bool Exists(string url);
     }
 }

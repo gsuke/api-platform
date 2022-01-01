@@ -1,8 +1,6 @@
-using System.Text;
 using System.Data;
 using Dapper;
 using Gsuke.ApiPlatform.Models;
-using Npgsql;
 
 namespace Gsuke.ApiPlatform.Repositories
 {
@@ -32,9 +30,26 @@ FROM
     resources
 WHERE
     url = @url
-; ";
+";
             var param = new { url = url };
             return _conn.QueryFirstOrDefault<Resource>(sql, param);
+        }
+
+        public bool Exists(string url)
+        {
+            var sql = @"
+SELECT
+    EXISTS (
+        SELECT
+            *
+        FROM
+            resources
+        WHERE
+            url = @url
+    )
+";
+            var param = new { url = url };
+            return _conn.QueryFirstOrDefault<bool>(sql, param);
         }
     }
 }

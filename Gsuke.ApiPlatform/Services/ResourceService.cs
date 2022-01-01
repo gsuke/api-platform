@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Gsuke.ApiPlatform.Repositories;
 using Gsuke.ApiPlatform.Models;
 
@@ -23,5 +22,10 @@ public class ResourceService : IResourceService
     public Resource Get(string url)
     {
         return _repository.Get(url);
+    }
+
+    public bool Exists(string url)
+    {
+        return _repository.Exists(url);
     }
 }

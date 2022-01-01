@@ -1,4 +1,3 @@
-using System;
 using Gsuke.ApiPlatform.Models;
 
 namespace Gsuke.ApiPlatform.Repositories
@@ -7,5 +6,6 @@ namespace Gsuke.ApiPlatform.Repositories
     {
         IEnumerable<Resource> GetList();
         Resource Get(string url);
+        bool Exists(string url);
     }
 }
