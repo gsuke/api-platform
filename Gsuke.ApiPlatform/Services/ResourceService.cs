@@ -1,5 +1,7 @@
 using Gsuke.ApiPlatform.Repositories;
 using Gsuke.ApiPlatform.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace Gsuke.ApiPlatform.Services;
 
@@ -14,28 +16,39 @@ public class ResourceService : IResourceService
         _repository = resourceRepository;
     }
 
-    public IEnumerable<Resource> GetList()
+    public ActionResult<List<Resource>> GetList()
     {
-        return _repository.GetList();
+        return _repository.GetList().ToList();
     }
 
-    public Resource Get(string url)
+    public ActionResult<Resource> Get(string url)
     {
-        return _repository.Get(url);
-    }
-
-    public void Delete(string url)
-    {
-        int count = _repository.Delete(url);
-        if (count != 1)
+        var resource = _repository.Get(url);
+        if (resource == null)
         {
-            throw new Exception();
+            return new NotFoundResult();
         }
+        return resource;
     }
 
-    public void Create(Resource resource)
+    public IActionResult Delete(string url)
     {
+        if (!Exists(url))
+        {
+            return new NotFoundResult();
+        }
+        _repository.Delete(url);
+        return new NoContentResult();
+    }
+
+    public IActionResult Create(Resource resource)
+    {
+        if (Exists(resource.Url))
+        {
+            return new ConflictResult();
+        }
         _repository.Create(resource);
+        return new CreatedResult(nameof(Get), resource);
     }
 
     private bool Exists(string url)

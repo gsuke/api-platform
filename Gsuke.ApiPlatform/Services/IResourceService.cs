@@ -1,12 +1,13 @@
 using Gsuke.ApiPlatform.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Gsuke.ApiPlatform.Services
 {
     public interface IResourceService
     {
-        IEnumerable<Resource> GetList();
-        Resource Get(string url);
-        void Delete(string url);
-        void Create(Resource resource);
+        ActionResult<List<Resource>> GetList();
+        ActionResult<Resource> Get(string url);
+        IActionResult Delete(string url);
+        IActionResult Create(Resource resource);
     }
 }

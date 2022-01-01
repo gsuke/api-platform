@@ -20,31 +20,24 @@ public class ResourceController : ControllerBase
     [HttpGet]
     public ActionResult<List<Resource>> GetList()
     {
-        return _service.GetList().ToList();
+        return _service.GetList();
     }
 
     [HttpGet("{url}")]
     public ActionResult<Resource> Get(string url)
     {
-        var resource = _service.Get(url);
-        if (resource == null)
-        {
-            return NotFound();
-        }
         return _service.Get(url);
     }
 
     [HttpDelete("{url}")]
     public IActionResult Delete(string url)
     {
-        _service.Delete(url);
-        return NoContent();
+        return _service.Delete(url);
     }
 
     [HttpPost]
     public IActionResult Create(Resource resource)
     {
-        // TODO: メソッドの構成を練り直す
-        return NoContent();
+        return _service.Create(resource);
     }
 }
