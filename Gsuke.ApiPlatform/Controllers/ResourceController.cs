@@ -24,4 +24,10 @@ public class ResourceController : ControllerBase
     {
         return _service.GetList().ToList();
     }
+
+    [HttpGet("{url}")]
+    public ActionResult<Resource> Get(string url)
+    {
+        return _service.Get(url);
+    }
 }

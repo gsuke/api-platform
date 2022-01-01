@@ -2,6 +2,7 @@ using System.Text;
 using System.Data;
 using Dapper;
 using Gsuke.ApiPlatform.Models;
+using Npgsql;
 
 namespace Gsuke.ApiPlatform.Repositories
 {
@@ -21,6 +22,20 @@ namespace Gsuke.ApiPlatform.Repositories
         {
             var sql = "SELECT * FROM resources;";
             return _conn.Query<Resource>(sql);
+        }
+
+        public Resource Get(string url)
+        {
+            var sql = @"
+SELECT
+    *
+FROM
+    resources
+WHERE
+    url = @url
+; ";
+            var param = new { url = url };
+            return _conn.QueryFirstOrDefault<Resource>(sql, param);
         }
     }
 }

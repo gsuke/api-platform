@@ -15,9 +15,13 @@ public class ResourceService : IResourceService
         _repository = resourceRepository;
     }
 
-    [HttpGet]
     public IEnumerable<Resource> GetList()
     {
         return _repository.GetList();
+    }
+
+    public Resource Get(string url)
+    {
+        return _repository.Get(url);
     }
 }

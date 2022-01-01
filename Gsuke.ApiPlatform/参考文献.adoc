@@ -9,3 +9,5 @@
 * Dapper + Npgsql で SELECTする https://mebee.info/2021/06/14/post-35943/
 
 * Dapperを使ってマッピングする方法(ケースの変換など) https://webbibouroku.com/Blog/Article/dapper
+
+* Dapperでクエリを発行する方法 https://pg-life.net/csharp/dapper/
