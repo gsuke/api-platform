@@ -16,12 +16,13 @@ public class ResourceService : IResourceService
         _logger = logger;
         _repository = resourceRepository;
 
+        // TODO: dataSchemaのマッピングが上手くいっていない
         _mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<ResourceEntity, ResourceDto>()));
     }
 
-    public ActionResult<List<ResourceEntity>> GetList()
+    public ActionResult<List<ResourceDto>> GetList()
     {
-        return _repository.GetList().ToList();
+        return _mapper.Map<List<ResourceDto>>(_repository.GetList());
     }
 
     public ActionResult<ResourceDto> Get(string url)

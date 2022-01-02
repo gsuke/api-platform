@@ -18,7 +18,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<ResourceEntity>> GetList()
+    public ActionResult<List<ResourceDto>> GetList()
     {
         return _service.GetList();
     }
