@@ -1,7 +1,6 @@
 using Gsuke.ApiPlatform.Repositories;
 using Gsuke.ApiPlatform.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Web;
 
 namespace Gsuke.ApiPlatform.Services;
 
@@ -43,7 +42,7 @@ public class ResourceService : IResourceService
 
     public IActionResult Create(Resource resource)
     {
-        if (resource.Url is null)
+        if (String.IsNullOrEmpty(resource.Url))
         {
             return new BadRequestResult();
         }
