@@ -24,7 +24,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpGet("{url}")]
-    public ActionResult<ResourceEntity> Get(string url)
+    public ActionResult<ResourceDto> Get(string url)
     {
         return _service.Get(url);
     }
