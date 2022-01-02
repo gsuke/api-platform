@@ -13,3 +13,5 @@
 * Dapperで様々なクエリを発行する方法 https://pg-life.net/csharp/dapper/
 
 * ASP.NET 6 でWebAPIを作るときの公式サンプル https://docs.microsoft.com/ja-jp/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio
+
+* AutoMapperでケース変換をする方法の公式サンプル https://docs.automapper.org/en/latest/Configuration.html
