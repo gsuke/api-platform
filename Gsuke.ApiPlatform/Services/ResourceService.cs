@@ -16,11 +16,11 @@ public class ResourceService : IResourceService
         _logger = logger;
         _repository = resourceRepository;
 
-        _mapper = new Mapper(new MapperConfiguration(cfg =>
+        _mapper = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<ResourceEntity, ResourceDto>();
+            cfg.CreateMap<ResourceEntity, ResourceDto>().ReverseMap();
             cfg.SourceMemberNamingConvention = new LowerUnderscoreNamingConvention();
-        }));
+        }).CreateMapper();
     }
 
     public ActionResult<List<ResourceDto>> GetList()
@@ -48,7 +48,7 @@ public class ResourceService : IResourceService
         return new NoContentResult();
     }
 
-    public IActionResult Create(ResourceEntity resource)
+    public IActionResult Create(ResourceDto resource)
     {
         if (String.IsNullOrEmpty(resource.url))
         {
@@ -58,7 +58,7 @@ public class ResourceService : IResourceService
         {
             return new ConflictResult();
         }
-        _repository.Create(resource);
+        _repository.Create(_mapper.Map<ResourceEntity>(resource));
         return new CreatedResult(nameof(Get), resource);
     }
 

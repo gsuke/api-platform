@@ -36,7 +36,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(ResourceEntity resource)
+    public IActionResult Create(ResourceDto resource)
     {
         return _service.Create(resource);
     }

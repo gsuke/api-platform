@@ -8,6 +8,6 @@ namespace Gsuke.ApiPlatform.Services
         ActionResult<List<ResourceDto>> GetList();
         ActionResult<ResourceDto> Get(string url);
         IActionResult Delete(string url);
-        IActionResult Create(ResourceEntity resource);
+        IActionResult Create(ResourceDto resource);
     }
 }
