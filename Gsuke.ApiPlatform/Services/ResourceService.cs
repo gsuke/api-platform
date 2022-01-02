@@ -8,13 +8,15 @@ namespace Gsuke.ApiPlatform.Services;
 public class ResourceService : IResourceService
 {
     private readonly ILogger<ResourceService> _logger;
-    private readonly IResourceRepository _repository;
+    private readonly IResourceRepository _resourceRepository;
+    private readonly IContainerRepository _containerRepository;
     private readonly IMapper _mapper;
 
-    public ResourceService(ILogger<ResourceService> logger, IResourceRepository resourceRepository)
+    public ResourceService(ILogger<ResourceService> logger, IResourceRepository resourceRepository, IContainerRepository containerRepository)
     {
         _logger = logger;
-        _repository = resourceRepository;
+        _resourceRepository = resourceRepository;
+        _containerRepository = containerRepository;
 
         _mapper = new MapperConfiguration(cfg =>
         {
@@ -25,12 +27,12 @@ public class ResourceService : IResourceService
 
     public ActionResult<List<ResourceDto>> GetList()
     {
-        return _mapper.Map<List<ResourceDto>>(_repository.GetList());
+        return _mapper.Map<List<ResourceDto>>(_resourceRepository.GetList());
     }
 
     public ActionResult<ResourceDto> Get(string url)
     {
-        var resource = _repository.Get(url);
+        var resource = _resourceRepository.Get(url);
         if (resource == null)
         {
             return new NotFoundResult();
@@ -44,7 +46,7 @@ public class ResourceService : IResourceService
         {
             return new NotFoundResult();
         }
-        _repository.Delete(url);
+        _resourceRepository.Delete(url);
         return new NoContentResult();
     }
 
@@ -62,12 +64,12 @@ public class ResourceService : IResourceService
         var resourceEntity = _mapper.Map<ResourceEntity>(resourceDto);
         resourceEntity.container_id = Guid.NewGuid();
 
-        _repository.Create(resourceEntity);
+        _resourceRepository.Create(resourceEntity);
         return new CreatedResult(nameof(Get), resourceDto);
     }
 
     private bool Exists(string url)
     {
-        return _repository.Exists(url);
+        return _resourceRepository.Exists(url);
     }
 }
