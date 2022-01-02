@@ -74,11 +74,13 @@ INSERT
     (
         url
         , data_schema
+        , container_id
     )
 VALUES
 (
     @url
     , @data_schema
+    , @container_id
 )
 ";
             return _conn.Execute(sql, resource);

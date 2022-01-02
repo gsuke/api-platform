@@ -48,18 +48,22 @@ public class ResourceService : IResourceService
         return new NoContentResult();
     }
 
-    public IActionResult Create(ResourceDto resource)
+    public IActionResult Create(ResourceDto resourceDto)
     {
-        if (String.IsNullOrEmpty(resource.url))
+        if (String.IsNullOrEmpty(resourceDto.url))
         {
             return new BadRequestResult();
         }
-        if (Exists(resource.url))
+        if (Exists(resourceDto.url))
         {
             return new ConflictResult();
         }
-        _repository.Create(_mapper.Map<ResourceEntity>(resource));
-        return new CreatedResult(nameof(Get), resource);
+
+        var resourceEntity = _mapper.Map<ResourceEntity>(resourceDto);
+        resourceEntity.container_id = Guid.NewGuid().ToString();
+
+        _repository.Create(resourceEntity);
+        return new CreatedResult(nameof(Get), resourceDto);
     }
 
     private bool Exists(string url)
