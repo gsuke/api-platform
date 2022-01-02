@@ -60,7 +60,7 @@ public class ResourceService : IResourceService
         }
 
         var resourceEntity = _mapper.Map<ResourceEntity>(resourceDto);
-        resourceEntity.container_id = Guid.NewGuid().ToString();
+        resourceEntity.container_id = Guid.NewGuid();
 
         _repository.Create(resourceEntity);
         return new CreatedResult(nameof(Get), resourceDto);
