@@ -5,6 +5,6 @@ namespace Gsuke.ApiPlatform.Repositories
     public interface IContainerRepository
     {
         int Create(ResourceEntity resource);
-        int Delete(string containerId);
+        int Delete(Guid containerId);
     }
 }

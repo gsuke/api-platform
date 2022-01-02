@@ -33,7 +33,7 @@ public class ResourceService : IResourceService
     public ActionResult<ResourceDto> Get(string url)
     {
         var resource = _resourceRepository.Get(url);
-        if (resource == null)
+        if (resource is null)
         {
             return new NotFoundResult();
         }
@@ -42,10 +42,13 @@ public class ResourceService : IResourceService
 
     public IActionResult Delete(string url)
     {
-        if (!Exists(url))
+        var resource = _resourceRepository.Get(url);
+        if (resource is null)
         {
             return new NotFoundResult();
         }
+
+        _containerRepository.Delete(resource.container_id);
         _resourceRepository.Delete(url);
         return new NoContentResult();
     }
@@ -64,6 +67,7 @@ public class ResourceService : IResourceService
         var resourceEntity = _mapper.Map<ResourceEntity>(resourceDto);
         resourceEntity.container_id = Guid.NewGuid();
 
+        _containerRepository.Create(resourceEntity);
         _resourceRepository.Create(resourceEntity);
         return new CreatedResult(nameof(Get), resourceDto);
     }
