@@ -43,6 +43,10 @@ public class ResourceService : IResourceService
 
     public IActionResult Create(Resource resource)
     {
+        if (resource.Url is null)
+        {
+            return new BadRequestResult();
+        }
         if (Exists(resource.Url))
         {
             return new ConflictResult();
