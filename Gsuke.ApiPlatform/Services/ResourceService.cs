@@ -48,8 +48,8 @@ public class ResourceService : IResourceService
             return new NotFoundResult();
         }
 
-        _containerRepository.Delete(resource.container_id);
         _resourceRepository.Delete(url);
+        _containerRepository.Delete(resource.container_id);
         return new NoContentResult();
     }
 
