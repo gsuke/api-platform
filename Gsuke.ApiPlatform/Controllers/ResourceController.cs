@@ -18,13 +18,13 @@ public class ResourceController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<Resource>> GetList()
+    public ActionResult<List<ResourceEntity>> GetList()
     {
         return _service.GetList();
     }
 
     [HttpGet("{url}")]
-    public ActionResult<Resource> Get(string url)
+    public ActionResult<ResourceEntity> Get(string url)
     {
         return _service.Get(url);
     }
@@ -36,7 +36,7 @@ public class ResourceController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(Resource resource)
+    public IActionResult Create(ResourceEntity resource)
     {
         return _service.Create(resource);
     }

@@ -3,9 +3,6 @@ using Gsuke.ApiPlatform.Services;
 using Npgsql;
 using System.Data;
 
-// Dapperでアンダースコアを無視する
-Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

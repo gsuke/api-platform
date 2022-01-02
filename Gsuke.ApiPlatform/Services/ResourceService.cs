@@ -15,12 +15,12 @@ public class ResourceService : IResourceService
         _repository = resourceRepository;
     }
 
-    public ActionResult<List<Resource>> GetList()
+    public ActionResult<List<ResourceEntity>> GetList()
     {
         return _repository.GetList().ToList();
     }
 
-    public ActionResult<Resource> Get(string url)
+    public ActionResult<ResourceEntity> Get(string url)
     {
         var resource = _repository.Get(url);
         if (resource == null)
@@ -40,13 +40,13 @@ public class ResourceService : IResourceService
         return new NoContentResult();
     }
 
-    public IActionResult Create(Resource resource)
+    public IActionResult Create(ResourceEntity resource)
     {
-        if (String.IsNullOrEmpty(resource.Url))
+        if (String.IsNullOrEmpty(resource.url))
         {
             return new BadRequestResult();
         }
-        if (Exists(resource.Url))
+        if (Exists(resource.url))
         {
             return new ConflictResult();
         }

@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Gsuke.ApiPlatform.Models
 {
-    public class Resource
+    public class ResourceEntity
     {
         [Required]
-        public string? Url { get; set; }
+        public string? url { get; set; }
         [Required]
-        public string? DataSchema { get; set; }
+        public string? data_schema { get; set; }
     }
 }

@@ -15,13 +15,13 @@ namespace Gsuke.ApiPlatform.Repositories
             _conn = conn;
         }
 
-        public IEnumerable<Resource> GetList()
+        public IEnumerable<ResourceEntity> GetList()
         {
             var sql = "SELECT * FROM resources;";
-            return _conn.Query<Resource>(sql);
+            return _conn.Query<ResourceEntity>(sql);
         }
 
-        public Resource Get(string url)
+        public ResourceEntity Get(string url)
         {
             var sql = @"
 SELECT
@@ -32,7 +32,7 @@ WHERE
     url = @url
 ";
             var param = new { url = url };
-            return _conn.QueryFirstOrDefault<Resource>(sql, param);
+            return _conn.QueryFirstOrDefault<ResourceEntity>(sql, param);
         }
 
         public bool Exists(string url)
@@ -65,7 +65,7 @@ WHERE
             return _conn.Execute(sql, param);
         }
 
-        public int Create(Resource resource)
+        public int Create(ResourceEntity resource)
         {
             var sql = @"
 INSERT
@@ -77,8 +77,8 @@ INSERT
     )
 VALUES
 (
-    @Url
-    , @DataSchema
+    @url
+    , @data_schema
 )
 ";
             return _conn.Execute(sql, resource);

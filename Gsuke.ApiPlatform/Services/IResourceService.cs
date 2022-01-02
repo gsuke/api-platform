@@ -5,9 +5,9 @@ namespace Gsuke.ApiPlatform.Services
 {
     public interface IResourceService
     {
-        ActionResult<List<Resource>> GetList();
-        ActionResult<Resource> Get(string url);
+        ActionResult<List<ResourceEntity>> GetList();
+        ActionResult<ResourceEntity> Get(string url);
         IActionResult Delete(string url);
-        IActionResult Create(Resource resource);
+        IActionResult Create(ResourceEntity resource);
     }
 }
