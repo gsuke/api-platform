@@ -13,6 +13,8 @@ namespace Gsuke.ApiPlatform.Misc
 
         public static string? ConvertJSchemaTypeToSqlColumnType(JSchemaType? type)
         {
+            // TODO: "Integer, Null" のように格納されるNull許容型に対応していない
+            // Console.WriteLine(type.Value);
             if (type is null)
             {
                 return null;

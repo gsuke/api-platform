@@ -3,6 +3,7 @@ using Gsuke.ApiPlatform.Models;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Newtonsoft.Json.Schema;
+using Gsuke.ApiPlatform.Misc;
 
 namespace Gsuke.ApiPlatform.Services;
 
@@ -67,12 +68,8 @@ public class ResourceService : IResourceService
         }
 
         // データスキーマの解析
-        JSchema dataSchema;
-        try
-        {
-            dataSchema = JSchema.Parse(resourceDto.dataSchema);
-        }
-        catch
+        JSchema? dataSchema = ParseDataSchema(resourceDto.dataSchema);
+        if (dataSchema is null)
         {
             return new BadRequestResult();
         }
@@ -81,14 +78,7 @@ public class ResourceService : IResourceService
         resourceEntity.container_id = Guid.NewGuid();
 
         // TODO: エラーハンドリングの方式を検討する必要あり
-        try
-        {
-            _containerRepository.Create(resourceEntity, dataSchema);
-        }
-        catch
-        {
-            return new BadRequestResult();
-        }
+        _containerRepository.Create(resourceEntity, dataSchema);
         _resourceRepository.Create(resourceEntity);
         return new CreatedResult(nameof(Get), resourceDto);
     }
@@ -96,5 +86,46 @@ public class ResourceService : IResourceService
     private bool Exists(string url)
     {
         return _resourceRepository.Exists(url);
+    }
+
+    /// <summary>
+    /// データスキーマ文字列の妥当性を検証し、JSchemaに変換する
+    /// </summary>
+    /// <param name="dataSchema"></param>
+    /// <returns>正しければJSchemaを返す、不正ならばnullを返す</returns>
+    private JSchema? ParseDataSchema(string dataSchema)
+    {
+        JSchema jSchema;
+        try
+        {
+            jSchema = JSchema.Parse(dataSchema);
+        }
+        catch
+        {
+            return null;
+        }
+
+        var hasIdColumn = false;
+
+        foreach (KeyValuePair<string, JSchema> property in jSchema.Properties)
+        {
+            // 指定されたTypeが対応していること
+            if (ColumnType.ConvertJSchemaTypeToSqlColumnType(property.Value.Type) is null)
+            {
+                return null;
+            }
+            // idカラムが含まれていること
+            if (property.Key == "id")
+            {
+                hasIdColumn = true;
+            }
+        }
+
+        if (!hasIdColumn)
+        {
+            return null;
+        }
+
+        return jSchema;
     }
 }
