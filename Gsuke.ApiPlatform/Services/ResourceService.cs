@@ -80,7 +80,15 @@ public class ResourceService : IResourceService
         var resourceEntity = _mapper.Map<ResourceEntity>(resourceDto);
         resourceEntity.container_id = Guid.NewGuid();
 
-        _containerRepository.Create(resourceEntity, dataSchema);
+        // TODO: エラーハンドリングの方式を検討する必要あり
+        try
+        {
+            _containerRepository.Create(resourceEntity, dataSchema);
+        }
+        catch
+        {
+            return new BadRequestResult();
+        }
         _resourceRepository.Create(resourceEntity);
         return new CreatedResult(nameof(Get), resourceDto);
     }
