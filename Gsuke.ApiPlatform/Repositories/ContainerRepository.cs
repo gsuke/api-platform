@@ -26,7 +26,18 @@ namespace Gsuke.ApiPlatform.Repositories
             var properties = new List<string>();
             foreach (KeyValuePair<string, JSchema> property in dataSchema.Properties)
             {
-                properties.Add($"{property.Key} {ColumnType.ConvertJSchemaTypeToSqlColumnType(property.Value.Type)}");
+                var tempStr = $"{property.Key} {ColumnType.ConvertJSchemaTypeToSqlColumnType(property.Value.Type)}";
+
+                // 制約を付与
+                if (property.Key == "id")
+                {
+                    tempStr += " PRIMARY KEY";
+                }
+                else
+                {
+                    tempStr += " NOT NULL";
+                }
+                properties.Add(tempStr);
             }
             sql.Append(String.Join(", ", properties));
 
@@ -34,6 +45,7 @@ namespace Gsuke.ApiPlatform.Repositories
             _logger.LogInformation(sql.ToString());
             return _conn.Execute(sql.ToString());
         }
+
         public int Delete(Guid containerId)
         {
             var sql = $"DROP TABLE IF EXISTS \"{GetContainerName(containerId)}\"";
