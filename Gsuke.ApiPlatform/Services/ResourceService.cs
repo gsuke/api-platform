@@ -2,6 +2,7 @@ using Gsuke.ApiPlatform.Repositories;
 using Gsuke.ApiPlatform.Models;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Newtonsoft.Json.Schema;
 
 namespace Gsuke.ApiPlatform.Services;
 
@@ -55,19 +56,31 @@ public class ResourceService : IResourceService
 
     public IActionResult Create(ResourceDto resourceDto)
     {
-        if (String.IsNullOrEmpty(resourceDto.url))
+        if (String.IsNullOrEmpty(resourceDto.url) || String.IsNullOrEmpty(resourceDto.dataSchema))
         {
-            return new BadRequestResult();
+            throw new InvalidOperationException();
         }
+
         if (Exists(resourceDto.url))
         {
             return new ConflictResult();
         }
 
+        // データスキーマの解析
+        JSchema dataSchema;
+        try
+        {
+            dataSchema = JSchema.Parse(resourceDto.dataSchema);
+        }
+        catch
+        {
+            return new BadRequestResult();
+        }
+
         var resourceEntity = _mapper.Map<ResourceEntity>(resourceDto);
         resourceEntity.container_id = Guid.NewGuid();
 
-        _containerRepository.Create(resourceEntity);
+        _containerRepository.Create(resourceEntity, dataSchema);
         _resourceRepository.Create(resourceEntity);
         return new CreatedResult(nameof(Get), resourceDto);
     }

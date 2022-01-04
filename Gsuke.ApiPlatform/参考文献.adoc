@@ -15,3 +15,5 @@
 * ASP.NET 6 でWebAPIを作るときの公式サンプル https://docs.microsoft.com/ja-jp/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio
 
 * AutoMapperでケース変換をする方法の公式サンプル https://docs.automapper.org/en/latest/Getting-started.html
+
+* NewtonsoftのJsonSchemaの公式doc https://www.newtonsoft.com/json/help/html/JsonSchema.htm

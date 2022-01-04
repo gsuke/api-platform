@@ -1,6 +1,7 @@
 using System.Data;
 using Dapper;
 using Gsuke.ApiPlatform.Models;
+using Newtonsoft.Json.Schema;
 
 namespace Gsuke.ApiPlatform.Repositories
 {
@@ -15,7 +16,7 @@ namespace Gsuke.ApiPlatform.Repositories
             _conn = conn;
         }
 
-        public int Create(ResourceEntity resource)
+        public int Create(ResourceEntity resource, JSchema dataSchema)
         {
             var sql = $"CREATE TABLE IF NOT EXISTS \"{GetContainerName(resource.container_id)}\" ()";
             return _conn.Execute(sql);
