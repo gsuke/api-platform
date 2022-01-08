@@ -52,6 +52,12 @@ namespace Gsuke.ApiPlatform.Repositories
             return _conn.Execute(sql);
         }
 
+        public IEnumerable<dynamic> GetList(Guid containerId)
+        {
+            var sql = $"SELECT * FROM \"{GetContainerName(containerId)}\"";
+            return _conn.Query(sql);
+        }
+
         private string GetContainerName(Guid containerId) => $"container-{containerId}";
     }
 }

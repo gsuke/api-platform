@@ -7,5 +7,6 @@ namespace Gsuke.ApiPlatform.Repositories
     {
         int Create(ResourceEntity resource, JSchema dataSchema);
         int Delete(Guid containerId);
+        IEnumerable<dynamic> GetList(Guid containerId);
     }
 }
