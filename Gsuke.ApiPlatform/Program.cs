@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
 builder.Services.AddScoped<IResourceService, ResourceService>();
 builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
+builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IDbConnection>(
     provider => new NpgsqlConnection(builder.Configuration["DbConnectionString"])
 );
