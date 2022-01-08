@@ -1,3 +1,4 @@
+using System.Threading.Tasks.Dataflow;
 using Gsuke.ApiPlatform.Repositories;
 using Gsuke.ApiPlatform.Errors;
 using Gsuke.ApiPlatform.Misc;
@@ -60,14 +61,9 @@ public class ApiService : IApiService
         return null;
     }
 
-    public Error? Post(string url, dynamic item)
+    public Error? Post(string url, Dictionary<string, dynamic> item)
     {
-        string? id = item.id;
         // TODO: ID自動割り振り機能を実装したい
-        if (String.IsNullOrEmpty(id))
-        {
-            return new Error();
-        }
 
         var resource = _resourceService.Get(url);
         if (resource is null)
@@ -75,9 +71,9 @@ public class ApiService : IApiService
             return new NotFoundError(url);
         }
 
-        if (_repository.Get(resource.container_id ?? throw new Exception(), id) is not null)
+        if (_repository.Get(resource.container_id ?? throw new Exception(), item["id"]) is not null)
         {
-            return new AlreadyExistsError($"{url}/{id}");
+            return new AlreadyExistsError($"{url}/{item["id"]}");
         }
 
         // データスキーマを取得
@@ -86,12 +82,10 @@ public class ApiService : IApiService
         {
             throw new Exception();
         }
-        dataSchema.AllowAdditionalProperties = false; // デバッグ用
 
         // 入力値がデータスキーマに沿っているかを確認
-        var jItem = (JObject)item;
-        var isValid = jItem.IsValid(dataSchema); // TODO: エラーメッセージを取得してErrorに流そう
-        if (!isValid)
+        var jItem = JObject.FromObject(item);
+        if (!jItem.IsValid(dataSchema)) // TODO: エラーメッセージを取得してErrorに流そう
         {
             return new DataSchemaValidationError();
         }

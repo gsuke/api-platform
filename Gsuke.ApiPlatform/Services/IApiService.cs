@@ -7,6 +7,6 @@ namespace Gsuke.ApiPlatform.Services
         (List<dynamic>?, Error?) GetList(string url);
         (dynamic?, Error?) Get(string url, string id);
         Error? Delete(string url, string id);
-        Error? Post(string url, dynamic item);
+        Error? Post(string url, Dictionary<string, dynamic> item);
     }
 }

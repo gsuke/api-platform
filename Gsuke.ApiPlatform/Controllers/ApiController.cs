@@ -57,9 +57,19 @@ public class ApiController : ControllerBase
     {
         using (var reader = new StreamReader(Request.Body))
         {
+            // リクエストボディを辞書型で取得
             var body = await reader.ReadToEndAsync();
-            dynamic? item = JsonConvert.DeserializeObject<dynamic>(body);
+            Dictionary<string, dynamic> item;
+            try
+            {
+                item = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(body) ?? throw new JsonSerializationException();
+            }
+            catch (JsonSerializationException)
+            {
+                return BadRequest(new DataSchemaValidationError());
+            };
 
+            // Post処理
             var error = _service.Post(url, item);
             if (error is NotFoundError)
             {

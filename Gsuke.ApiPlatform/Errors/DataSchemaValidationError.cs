@@ -4,7 +4,7 @@ namespace Gsuke.ApiPlatform.Errors
     {
         public DataSchemaValidationError()
         {
-            Message = $"データの形式が不正です。対応したデータスキーマを参照し、正しい値に修正してください。";
+            Message = $"データの形式がデータスキーマに対応していません。";
         }
     }
 }
