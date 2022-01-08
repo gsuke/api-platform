@@ -29,8 +29,13 @@ public class ApiController : ControllerBase
     }
 
     [HttpGet("{url}/{id}")]
-    public ActionResult<string> Get(string url, string id)
+    public ActionResult<dynamic> Get(string url, string id)
     {
-        return url + ", " + id;
+        var (result, error) = _service.Get(url, id);
+        if (result is null || error is NotFoundError)
+        {
+            return NotFound(error);
+        }
+        return result;
     }
 }

@@ -26,4 +26,19 @@ public class ApiService : IApiService
         return (_containerRepository.GetList(resource.container_id), null);
     }
 
+    public (dynamic?, Error?) Get(string url, string id)
+    {
+        var resource = _resourceService.Get(url);
+        if (resource is null)
+        {
+            return (null, new NotFoundError(url));
+        }
+        var item = _containerRepository.Get(resource.container_id, id);
+        if (item is null)
+        {
+            return (null, new NotFoundError($"{url}/{id}"));
+        }
+        return (item, null);
+    }
+
 }
