@@ -62,7 +62,7 @@ public class ResourceService : IResourceService
             throw new InvalidOperationException();
         }
 
-        if (Exists(resourceDto.url))
+        if (Get(resourceDto.url) is not null)
         {
             return new AlreadyExistsError(resourceDto.url);
         }
@@ -80,11 +80,6 @@ public class ResourceService : IResourceService
         _containerRepository.Create(resourceEntity, dataSchema);
         _resourceRepository.Create(resourceEntity);
         return null;
-    }
-
-    public bool Exists(string url)
-    {
-        return _resourceRepository.Exists(url);
     }
 
     public ResourceDto EntityToDto(ResourceEntity resourceEntity)
