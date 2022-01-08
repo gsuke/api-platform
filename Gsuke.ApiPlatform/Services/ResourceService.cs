@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Newtonsoft.Json.Schema;
 using Gsuke.ApiPlatform.Misc;
+using Gsuke.ApiPlatform.Errors;
 
 namespace Gsuke.ApiPlatform.Services;
 
@@ -27,7 +28,7 @@ public class ResourceService : IResourceService
         }).CreateMapper();
     }
 
-    public ActionResult<List<ResourceDto>> GetList()
+    public List<ResourceDto> GetList()
     {
         return _mapper.Map<List<ResourceDto>>(_resourceRepository.GetList());
     }
