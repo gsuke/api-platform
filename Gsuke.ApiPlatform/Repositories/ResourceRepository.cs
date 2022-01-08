@@ -21,7 +21,7 @@ namespace Gsuke.ApiPlatform.Repositories
             return _conn.Query<ResourceEntity>(sql);
         }
 
-        public ResourceEntity Get(string url)
+        public ResourceEntity? Get(string url)
         {
             var sql = @"
 SELECT

@@ -1,13 +1,14 @@
 using Gsuke.ApiPlatform.Models;
 using Microsoft.AspNetCore.Mvc;
+using Gsuke.ApiPlatform.Errors;
 
 namespace Gsuke.ApiPlatform.Services
 {
     public interface IResourceService
     {
-        ActionResult<List<ResourceDto>> GetList();
-        ActionResult<ResourceDto> Get(string url);
-        IActionResult Delete(string url);
-        IActionResult Create(ResourceDto resourceDto);
+        List<ResourceDto> GetList();
+        ResourceDto? Get(string url);
+        Error? Delete(string url);
+        Error? Create(ResourceDto resourceDto);
     }
 }
