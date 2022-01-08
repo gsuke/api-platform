@@ -18,11 +18,12 @@ public class ApiService : IApiService
 
     public (List<dynamic>?, Error?) GetList(string url)
     {
-        if (!_resourceService.Exists(url))
+        var resource = _resourceService.Get(url);
+        if (resource is null)
         {
             return (null, new NotFoundError(url));
         }
-        return (new List<dynamic> { 0, "aaa", url }, null);
+        return (_containerRepository.GetList(resource.container_id), null);
     }
 
 }
