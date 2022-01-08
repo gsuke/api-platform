@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Gsuke.ApiPlatform.Services;
 using Gsuke.ApiPlatform.Errors;
+using Newtonsoft.Json;
 
 namespace Gsuke.ApiPlatform.Controllers;
 
@@ -48,5 +49,31 @@ public class ApiController : ControllerBase
             return NotFound(error);
         }
         return NoContent();
+    }
+
+    // TODO: 全体的に非同期化するべきだと思う
+    [HttpPost("{url}")]
+    public async Task<IActionResult> Post(string url)
+    {
+        using (var reader = new StreamReader(Request.Body))
+        {
+            var body = await reader.ReadToEndAsync();
+            dynamic? item = JsonConvert.DeserializeObject<dynamic>(body);
+
+            var error = _service.Post(url, item);
+            if (error is NotFoundError)
+            {
+                return NotFound(error);
+            }
+            else if (error is AlreadyExistsError)
+            {
+                return Conflict(error);
+            }
+            else if (error is not null)
+            {
+                return BadRequest(error);
+            }
+            return NoContent();
+        }
     }
 }

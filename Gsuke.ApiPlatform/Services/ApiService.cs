@@ -5,11 +5,11 @@ namespace Gsuke.ApiPlatform.Services;
 
 public class ApiService : IApiService
 {
-    private readonly ILogger<ResourceService> _logger;
+    private readonly ILogger<ApiService> _logger;
     private readonly IResourceService _resourceService;
     private readonly IApiRepository _repository;
 
-    public ApiService(ILogger<ResourceService> logger, IResourceService resourceService, IApiRepository apiRepository)
+    public ApiService(ILogger<ApiService> logger, IResourceService resourceService, IApiRepository apiRepository)
     {
         _logger = logger;
         _resourceService = resourceService;
@@ -53,6 +53,30 @@ public class ApiService : IApiService
             return new NotFoundError($"{url}/{id}");
         }
         _repository.Delete(resource.container_id, id);
+        return null;
+    }
+
+    public Error? Post(string url, dynamic item)
+    {
+        string? id = item.id;
+        // TODO: ID自動割り振り機能を実装したい
+        if (String.IsNullOrEmpty(id))
+        {
+            return new Error();
+        }
+
+        var resource = _resourceService.Get(url);
+        if (resource is null)
+        {
+            return new NotFoundError(url);
+        }
+
+        if (_repository.Get(resource.container_id, id) is not null)
+        {
+            return new AlreadyExistsError($"{url}/{id}");
+        }
+
+        _logger.LogInformation(id);
         return null;
     }
 
