@@ -1,5 +1,6 @@
 using Gsuke.ApiPlatform.Models;
 using Microsoft.AspNetCore.Mvc;
+using Gsuke.ApiPlatform.Errors;
 
 namespace Gsuke.ApiPlatform.Services
 {
@@ -7,7 +8,7 @@ namespace Gsuke.ApiPlatform.Services
     {
         List<ResourceDto> GetList();
         ActionResult<ResourceDto> Get(string url);
-        IActionResult Delete(string url);
+        Error? Delete(string url);
         IActionResult Create(ResourceDto resourceDto);
     }
 }

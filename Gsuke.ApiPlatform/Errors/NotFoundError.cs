@@ -2,9 +2,9 @@ namespace Gsuke.ApiPlatform.Errors
 {
     public class NotFoundError : Error
     {
-        public override string ToString()
+        public NotFoundError(string message)
         {
-            return $"{Message}は存在しません。";
+            Message = $"{message}は存在しません。";
         }
     }
 }

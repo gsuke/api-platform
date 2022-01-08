@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Gsuke.ApiPlatform.Services;
 using Gsuke.ApiPlatform.Models;
+using Gsuke.ApiPlatform.Errors;
 
 namespace Gsuke.ApiPlatform.Controllers;
 
@@ -32,7 +33,12 @@ public class ResourceController : ControllerBase
     [HttpDelete("{url}")]
     public IActionResult Delete(string url)
     {
-        return _service.Delete(url);
+        var error = _service.Delete(url);
+        if (error is NotFoundError)
+        {
+            return NotFound(error);
+        }
+        return NoContent();
     }
 
     [HttpPost]

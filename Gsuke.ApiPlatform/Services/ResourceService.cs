@@ -43,17 +43,17 @@ public class ResourceService : IResourceService
         return _mapper.Map<ResourceDto>(resource);
     }
 
-    public IActionResult Delete(string url)
+    public Error? Delete(string url)
     {
         var resource = _resourceRepository.Get(url);
         if (resource is null)
         {
-            return new NotFoundResult();
+            return new NotFoundError(url);
         }
 
         _resourceRepository.Delete(url);
         _containerRepository.Delete(resource.container_id);
-        return new NoContentResult();
+        return null;
     }
 
     public IActionResult Create(ResourceDto resourceDto)
