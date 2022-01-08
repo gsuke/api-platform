@@ -15,10 +15,10 @@ namespace Gsuke.ApiPlatform.Repositories
             _conn = conn;
         }
 
-        public IEnumerable<ResourceEntity> GetList()
+        public List<ResourceEntity> GetList()
         {
             var sql = "SELECT * FROM resources;";
-            return _conn.Query<ResourceEntity>(sql);
+            return _conn.Query<ResourceEntity>(sql).ToList();
         }
 
         public ResourceEntity? Get(string url)

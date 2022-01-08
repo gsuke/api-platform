@@ -21,7 +21,7 @@ public class ResourceController : ControllerBase
     [HttpGet]
     public ActionResult<List<ResourceDto>> GetList()
     {
-        return _service.GetList();
+        return _service.GetList().Select(x => _service.EntityToDto(x)).ToList();
     }
 
     [HttpGet("{url}")]
@@ -32,7 +32,7 @@ public class ResourceController : ControllerBase
         {
             return NotFound(new NotFoundError(url));
         }
-        return resource;
+        return _service.EntityToDto(resource);
     }
 
     [HttpDelete("{url}")]

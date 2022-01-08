@@ -27,19 +27,19 @@ public class ResourceService : IResourceService
         }).CreateMapper();
     }
 
-    public List<ResourceDto> GetList()
+    public List<ResourceEntity> GetList()
     {
-        return _mapper.Map<List<ResourceDto>>(_resourceRepository.GetList());
+        return _resourceRepository.GetList();
     }
 
-    public ResourceDto? Get(string url)
+    public ResourceEntity? Get(string url)
     {
         var resource = _resourceRepository.Get(url);
         if (resource is null)
         {
             return null;
         }
-        return _mapper.Map<ResourceDto>(resource);
+        return resource;
     }
 
     public Error? Delete(string url)
@@ -85,6 +85,11 @@ public class ResourceService : IResourceService
     public bool Exists(string url)
     {
         return _resourceRepository.Exists(url);
+    }
+
+    public ResourceDto EntityToDto(ResourceEntity resourceEntity)
+    {
+        return _mapper.Map<ResourceDto>(resourceEntity);
     }
 
     /// <summary>

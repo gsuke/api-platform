@@ -4,7 +4,7 @@ namespace Gsuke.ApiPlatform.Repositories
 {
     public interface IResourceRepository
     {
-        IEnumerable<ResourceEntity> GetList();
+        List<ResourceEntity> GetList();
         ResourceEntity? Get(string url);
         bool Exists(string url);
         int Delete(string url);
