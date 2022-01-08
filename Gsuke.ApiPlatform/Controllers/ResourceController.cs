@@ -49,6 +49,15 @@ public class ResourceController : ControllerBase
     [HttpPost]
     public IActionResult Create(ResourceDto resource)
     {
-        return _service.Create(resource);
+        var error = _service.Create(resource);
+        if (error is AlreadyExistsError)
+        {
+            return Conflict(error);
+        }
+        if (error is DataSchemaError)
+        {
+            return BadRequest(error);
+        }
+        return CreatedAtAction(nameof(Get), new { url = resource.url }, resource);
     }
 }

@@ -2,9 +2,9 @@ namespace Gsuke.ApiPlatform.Errors
 {
     public class AlreadyExistsError : Error
     {
-        public override string ToString()
+        public AlreadyExistsError(string message)
         {
-            return $"{Message}は既に存在しています。";
+            Message = $"{message}は既に存在しています。";
         }
     }
 }

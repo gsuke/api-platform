@@ -9,6 +9,6 @@ namespace Gsuke.ApiPlatform.Services
         List<ResourceDto> GetList();
         ResourceDto? Get(string url);
         Error? Delete(string url);
-        IActionResult Create(ResourceDto resourceDto);
+        Error? Create(ResourceDto resourceDto);
     }
 }

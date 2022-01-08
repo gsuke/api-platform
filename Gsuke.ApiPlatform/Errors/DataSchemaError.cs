@@ -2,9 +2,9 @@ namespace Gsuke.ApiPlatform.Errors
 {
     public class DataSchemaError : Error
     {
-        public override string ToString()
+        public DataSchemaError()
         {
-            return $"データスキーマの形式が不正です。";
+            Message = $"データスキーマの形式が不正です。";
         }
     }
 }

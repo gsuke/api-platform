@@ -56,7 +56,7 @@ public class ResourceService : IResourceService
         return null;
     }
 
-    public IActionResult Create(ResourceDto resourceDto)
+    public Error? Create(ResourceDto resourceDto)
     {
         if (String.IsNullOrEmpty(resourceDto.url) || String.IsNullOrEmpty(resourceDto.dataSchema))
         {
@@ -65,23 +65,22 @@ public class ResourceService : IResourceService
 
         if (Exists(resourceDto.url))
         {
-            return new ConflictResult();
+            return new AlreadyExistsError(resourceDto.url);
         }
 
         // データスキーマの解析
         JSchema? dataSchema = ParseDataSchema(resourceDto.dataSchema);
         if (dataSchema is null)
         {
-            return new BadRequestResult();
+            return new DataSchemaError();
         }
 
         var resourceEntity = _mapper.Map<ResourceEntity>(resourceDto);
         resourceEntity.container_id = Guid.NewGuid();
 
-        // TODO: エラーハンドリングの方式を検討する必要あり
         _containerRepository.Create(resourceEntity, dataSchema);
         _resourceRepository.Create(resourceEntity);
-        return new CreatedResult(nameof(Get), resourceDto);
+        return null;
     }
 
     private bool Exists(string url)
@@ -96,6 +95,7 @@ public class ResourceService : IResourceService
     /// <returns>正しければJSchemaを返す、不正ならばnullを返す</returns>
     private JSchema? ParseDataSchema(string dataSchema)
     {
+        // TODO: ここでエラー詳細を返すべき
         JSchema jSchema;
         try
         {
