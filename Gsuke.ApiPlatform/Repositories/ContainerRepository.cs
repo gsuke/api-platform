@@ -26,7 +26,7 @@ namespace Gsuke.ApiPlatform.Repositories
             var properties = new List<string>();
             foreach (KeyValuePair<string, JSchema> property in dataSchema.Properties)
             {
-                var tempStr = $"{property.Key} {ColumnType.ConvertJSchemaTypeToSqlColumnType(property.Value.Type)}";
+                var tempStr = $"{property.Key} {ColumnType.ConvertJSchemaTypeToSqlColumnType(property.Value.Type ?? JSchemaType.None)}";
 
                 // 制約を付与
                 if (property.Key == "id")

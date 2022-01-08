@@ -110,7 +110,7 @@ public class ResourceService : IResourceService
         foreach (KeyValuePair<string, JSchema> property in jSchema.Properties)
         {
             // 指定されたTypeが対応していること
-            if (ColumnType.ConvertJSchemaTypeToSqlColumnType(property.Value.Type) is null)
+            if (ColumnType.ConvertJSchemaTypeToSqlColumnType(property.Value.Type ?? JSchemaType.None) is null)
             {
                 return null;
             }

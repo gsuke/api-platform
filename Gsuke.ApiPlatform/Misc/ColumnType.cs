@@ -11,14 +11,10 @@ namespace Gsuke.ApiPlatform.Misc
             {(int)JSchemaType.Boolean, "boolean"},
         };
 
-        public static string? ConvertJSchemaTypeToSqlColumnType(JSchemaType? type)
+        public static string? ConvertJSchemaTypeToSqlColumnType(JSchemaType type)
         {
             // TODO: "Integer, Null" のように格納されるNull許容型に対応していない
             // Console.WriteLine(type.Value);
-            if (type is null)
-            {
-                return null;
-            }
             string? result;
             _sqlColumnType.TryGetValue((int)type, out result);
             return result;
