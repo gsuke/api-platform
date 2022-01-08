@@ -7,7 +7,7 @@ namespace Gsuke.ApiPlatform.Services
     public interface IResourceService
     {
         List<ResourceDto> GetList();
-        ActionResult<ResourceDto> Get(string url);
+        ResourceDto? Get(string url);
         Error? Delete(string url);
         IActionResult Create(ResourceDto resourceDto);
     }

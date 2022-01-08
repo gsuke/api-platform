@@ -33,12 +33,12 @@ public class ResourceService : IResourceService
         return _mapper.Map<List<ResourceDto>>(_resourceRepository.GetList());
     }
 
-    public ActionResult<ResourceDto> Get(string url)
+    public ResourceDto? Get(string url)
     {
         var resource = _resourceRepository.Get(url);
         if (resource is null)
         {
-            return new NotFoundResult();
+            return null;
         }
         return _mapper.Map<ResourceDto>(resource);
     }

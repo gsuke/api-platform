@@ -27,7 +27,12 @@ public class ResourceController : ControllerBase
     [HttpGet("{url}")]
     public ActionResult<ResourceDto> Get(string url)
     {
-        return _service.Get(url);
+        var resource = _service.Get(url);
+        if (resource is null)
+        {
+            return NotFound(new NotFoundError(url));
+        }
+        return resource;
     }
 
     [HttpDelete("{url}")]
