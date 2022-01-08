@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Gsuke.ApiPlatform.Services;
-using Gsuke.ApiPlatform.Models;
+using Gsuke.ApiPlatform.Errors;
 
 namespace Gsuke.ApiPlatform.Controllers;
 
@@ -18,9 +18,14 @@ public class ApiController : ControllerBase
     }
 
     [HttpGet("{url}")]
-    public ActionResult<string> GetList(string url)
+    public ActionResult<List<dynamic>> GetList(string url)
     {
-        return url;
+        var (result, error) = _service.GetList(url);
+        if (result is null || error is NotFoundError)
+        {
+            return NotFound(error);
+        }
+        return result;
     }
 
     [HttpGet("{url}/{id}")]

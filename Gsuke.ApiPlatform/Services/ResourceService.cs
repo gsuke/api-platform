@@ -1,6 +1,5 @@
 using Gsuke.ApiPlatform.Repositories;
 using Gsuke.ApiPlatform.Models;
-using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Newtonsoft.Json.Schema;
 using Gsuke.ApiPlatform.Misc;
@@ -83,7 +82,7 @@ public class ResourceService : IResourceService
         return null;
     }
 
-    private bool Exists(string url)
+    public bool Exists(string url)
     {
         return _resourceRepository.Exists(url);
     }
