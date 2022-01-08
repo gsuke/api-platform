@@ -12,6 +12,7 @@ namespace Gsuke.ApiPlatform.Misc
         // TODO: このメソッドからエラー詳細を返すべき
         public static JSchema? ParseDataSchema(string dataSchema)
         {
+            // パースする
             JSchema jSchema;
             try
             {
@@ -22,8 +23,8 @@ namespace Gsuke.ApiPlatform.Misc
                 return null;
             }
 
+            // それぞれのカラムの妥当性を確認する
             var hasIdColumn = false;
-
             foreach (KeyValuePair<string, JSchema> property in jSchema.Properties)
             {
                 // 指定されたTypeが対応していること
@@ -37,11 +38,14 @@ namespace Gsuke.ApiPlatform.Misc
                     hasIdColumn = true;
                 }
             }
-
             if (!hasIdColumn)
             {
                 return null;
             }
+
+            // additionalPropertiesを強制的にfalseにする
+            jSchema.AllowAdditionalProperties = false;
+            // TODO: 他にも前処理が必要なはず
 
             return jSchema;
         }

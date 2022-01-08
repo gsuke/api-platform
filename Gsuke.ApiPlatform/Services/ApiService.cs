@@ -1,5 +1,9 @@
 using Gsuke.ApiPlatform.Repositories;
 using Gsuke.ApiPlatform.Errors;
+using Gsuke.ApiPlatform.Misc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 
 namespace Gsuke.ApiPlatform.Services;
 
@@ -76,7 +80,23 @@ public class ApiService : IApiService
             return new AlreadyExistsError($"{url}/{id}");
         }
 
-        _logger.LogInformation(id);
+        // データスキーマを取得
+        var dataSchema = DataSchema.ParseDataSchema(resource.data_schema ?? throw new Exception());
+        if (dataSchema is null)
+        {
+            throw new Exception();
+        }
+        dataSchema.AllowAdditionalProperties = false; // デバッグ用
+
+        // 入力値がデータスキーマに沿っているかを確認
+        var jItem = (JObject)item;
+        var isValid = jItem.IsValid(dataSchema); // TODO: エラーメッセージを取得してErrorに流そう
+        if (!isValid)
+        {
+            return new DataSchemaValidationError();
+        }
+
+        _logger.LogInformation("OK");
         return null;
     }
 
