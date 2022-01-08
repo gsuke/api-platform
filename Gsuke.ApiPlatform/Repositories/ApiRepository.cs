@@ -38,6 +38,19 @@ WHERE
             return _conn.QueryFirstOrDefault(sql, param);
         }
 
+        public int Delete(Guid containerId, string id)
+        {
+            var sql = @$"
+DELETE
+FROM
+    ""{GetContainerName(containerId)}""
+WHERE
+    id = @id
+";
+            var param = new { id = id };
+            return _conn.Execute(sql, param);
+        }
+
         // TODO: 同じ処理がContainerRepositoryにも存在するので共通化すべき
         private string GetContainerName(Guid containerId) => $"container-{containerId}";
     }

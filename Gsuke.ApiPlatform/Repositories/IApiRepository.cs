@@ -7,5 +7,6 @@ namespace Gsuke.ApiPlatform.Repositories
     {
         List<dynamic> GetList(Guid containerId);
         dynamic? Get(Guid containerId, string id);
+        int Delete(Guid containerId, string id);
     }
 }

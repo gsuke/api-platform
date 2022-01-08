@@ -38,4 +38,15 @@ public class ApiController : ControllerBase
         }
         return result;
     }
+
+    [HttpDelete("{url}/{id}")]
+    public IActionResult Delete(string url, string id)
+    {
+        var error = _service.Delete(url, id);
+        if (error is NotFoundError)
+        {
+            return NotFound(error);
+        }
+        return NoContent();
+    }
 }

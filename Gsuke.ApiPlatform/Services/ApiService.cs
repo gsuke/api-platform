@@ -41,4 +41,19 @@ public class ApiService : IApiService
         return (item, null);
     }
 
+    public Error? Delete(string url, string id)
+    {
+        var resource = _resourceService.Get(url);
+        if (resource is null)
+        {
+            return new NotFoundError(url);
+        }
+        if (_repository.Get(resource.container_id, id) is null)
+        {
+            return new NotFoundError($"{url}/{id}");
+        }
+        _repository.Delete(resource.container_id, id);
+        return null;
+    }
+
 }
