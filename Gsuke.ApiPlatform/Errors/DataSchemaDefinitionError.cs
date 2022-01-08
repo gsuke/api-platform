@@ -1,8 +1,8 @@
 namespace Gsuke.ApiPlatform.Errors
 {
-    public class DataSchemaError : Error
+    public class DataSchemaDefinitionError : Error
     {
-        public DataSchemaError()
+        public DataSchemaDefinitionError()
         {
             Message = $"データスキーマの形式が不正です。";
         }

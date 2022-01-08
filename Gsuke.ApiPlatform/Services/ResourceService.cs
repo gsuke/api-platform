@@ -71,7 +71,7 @@ public class ResourceService : IResourceService
         JSchema? dataSchema = DataSchema.ParseDataSchema(resourceDto.dataSchema);
         if (dataSchema is null)
         {
-            return new DataSchemaError();
+            return new DataSchemaDefinitionError();
         }
 
         var resourceEntity = _mapper.Map<ResourceEntity>(resourceDto);

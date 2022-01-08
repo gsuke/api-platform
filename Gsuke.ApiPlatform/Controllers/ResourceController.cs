@@ -54,7 +54,7 @@ public class ResourceController : ControllerBase
         {
             return Conflict(error);
         }
-        if (error is DataSchemaError)
+        if (error is DataSchemaDefinitionError)
         {
             return BadRequest(error);
         }
