@@ -23,7 +23,7 @@ public class ApiService : IApiService
         {
             return (null, new NotFoundError(url));
         }
-        return (_repository.GetList(resource.container_id), null);
+        return (_repository.GetList(resource.container_id ?? throw new Exception()), null);
     }
 
     public (dynamic?, Error?) Get(string url, string id)
@@ -33,7 +33,7 @@ public class ApiService : IApiService
         {
             return (null, new NotFoundError(url));
         }
-        var item = _repository.Get(resource.container_id, id);
+        var item = _repository.Get(resource.container_id ?? throw new Exception(), id);
         if (item is null)
         {
             return (null, new NotFoundError($"{url}/{id}"));
@@ -48,11 +48,11 @@ public class ApiService : IApiService
         {
             return new NotFoundError(url);
         }
-        if (_repository.Get(resource.container_id, id) is null)
+        if (_repository.Get(resource.container_id ?? throw new Exception(), id) is null)
         {
             return new NotFoundError($"{url}/{id}");
         }
-        _repository.Delete(resource.container_id, id);
+        _repository.Delete(resource.container_id ?? throw new Exception(), id);
         return null;
     }
 
@@ -71,7 +71,7 @@ public class ApiService : IApiService
             return new NotFoundError(url);
         }
 
-        if (_repository.Get(resource.container_id, id) is not null)
+        if (_repository.Get(resource.container_id ?? throw new Exception(), id) is not null)
         {
             return new AlreadyExistsError($"{url}/{id}");
         }

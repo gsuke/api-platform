@@ -51,7 +51,7 @@ public class ResourceService : IResourceService
         }
 
         _resourceRepository.Delete(url);
-        _containerRepository.Delete(resource.container_id);
+        _containerRepository.Delete(resource.container_id ?? throw new Exception());
         return null;
     }
 

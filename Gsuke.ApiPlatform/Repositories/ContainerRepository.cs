@@ -21,7 +21,7 @@ namespace Gsuke.ApiPlatform.Repositories
         public int Create(ResourceEntity resource, JSchema dataSchema)
         {
             var sql = new StringBuilder();
-            sql.Append($"CREATE TABLE IF NOT EXISTS \"{GetContainerName(resource.container_id)}\" (");
+            sql.Append($"CREATE TABLE IF NOT EXISTS \"{GetContainerName(resource.container_id ?? throw new Exception())}\" (");
 
             var properties = new List<string>();
             foreach (KeyValuePair<string, JSchema> property in dataSchema.Properties)
