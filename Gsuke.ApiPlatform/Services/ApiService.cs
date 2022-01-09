@@ -119,8 +119,8 @@ public class ApiService : IApiService
         // idが含まれているか確認する
         if (!result.ContainsKey("id"))
         {
-            // idが含まれていない場合はデータスキーマに沿っていないので、DataSchemaValidationErrorを返す
-            return (null, new DataSchemaValidationError("値「id」を含める必要があります。"));
+            // idが含まれていない場合はidを自動で割り振る
+            result["id"] = Guid.NewGuid().ToString();
         }
 
         return (result, new NoError());
