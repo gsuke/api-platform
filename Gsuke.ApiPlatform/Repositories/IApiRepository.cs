@@ -1,6 +1,3 @@
-using Gsuke.ApiPlatform.Models;
-using Newtonsoft.Json.Schema;
-
 namespace Gsuke.ApiPlatform.Repositories
 {
     public interface IApiRepository
@@ -8,5 +5,6 @@ namespace Gsuke.ApiPlatform.Repositories
         List<dynamic> GetList(Guid containerId);
         dynamic? Get(Guid containerId, string id);
         int Delete(Guid containerId, string id);
+        int Post(Guid containerId, Dictionary<string, dynamic> item);
     }
 }

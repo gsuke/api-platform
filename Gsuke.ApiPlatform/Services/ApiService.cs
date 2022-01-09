@@ -90,7 +90,7 @@ public class ApiService : IApiService
             return new DataSchemaValidationError();
         }
 
-        _logger.LogInformation("OK");
+        _repository.Post(resource.container_id ?? throw new Exception(), item);
         return null;
     }
 

@@ -64,7 +64,7 @@ public class ApiController : ControllerBase
             {
                 item = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(body) ?? throw new JsonSerializationException();
             }
-            catch (JsonSerializationException)
+            catch (Exception)
             {
                 return BadRequest(new DataSchemaValidationError());
             };

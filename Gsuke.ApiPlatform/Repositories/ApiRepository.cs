@@ -1,9 +1,5 @@
 using System.Data;
-using System.Text;
 using Dapper;
-using Gsuke.ApiPlatform.Models;
-using Newtonsoft.Json.Schema;
-using Gsuke.ApiPlatform.Misc;
 
 namespace Gsuke.ApiPlatform.Repositories
 {
@@ -49,6 +45,29 @@ WHERE
 ";
             var param = new { id = id };
             return _conn.Execute(sql, param);
+        }
+
+        public int Post(Guid containerId, Dictionary<string, dynamic> item)
+        {
+            var sql = @$"
+INSERT
+    INTO
+    ""{GetContainerName(containerId)}""
+    (
+        {{0}}
+    )
+VALUES (
+    {{1}}
+)";
+
+            // SQL文のINSERT INTO句とVALUES句の中を作成
+            // TODO: SQLインジェクション対策が必要
+            var sortedItem = new SortedDictionary<string, dynamic>(item);
+            sql = String.Format(sql, String.Join(",\n", sortedItem.Keys), String.Join(",\n", sortedItem.Keys.Select(x => $"@{x}")));
+
+            // 実行
+            _logger.LogInformation(sql);
+            return _conn.Execute(sql, item);
         }
 
         // TODO: 同じ処理がContainerRepositoryにも存在するので共通化すべき
