@@ -17,3 +17,9 @@
 * AutoMapperでケース変換をする方法の公式サンプル https://docs.automapper.org/en/latest/Getting-started.html
 
 * NewtonsoftのJsonSchemaの公式doc https://www.newtonsoft.com/json/help/html/JsonSchema.htm
+
+* ASP.NETのバリデーション用属性一覧 https://docs.microsoft.com/ja-jp/dotnet/api/system.componentmodel.dataannotations?view=net-6.0
+
+* 正規表現サンプル集 https://www.megasoft.co.jp/mifes/seiki/index.html
+
+* JSONエンコード/デコードツール https://ja.infobyip.com/jsonencoderdecoder.php
