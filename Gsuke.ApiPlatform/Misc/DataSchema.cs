@@ -7,7 +7,7 @@ namespace Gsuke.ApiPlatform.Misc
 {
     public class DataSchema
     {
-        // カラム名のルール
+        // プロパティ名のルール
         // - 英小文字・半角数字・アンダースコアのみ
         // - 先頭に数字は不可
         // - 1～32文字
@@ -33,40 +33,45 @@ namespace Gsuke.ApiPlatform.Misc
                 return (null, new JsonError());
             }
 
-            // それぞれのカラムの妥当性を確認する
+            // それぞれのプロパティの妥当性を確認する
             var hasId = false;
             foreach (KeyValuePair<string, JSchema> property in jSchema.Properties)
             {
-                // 指定されたTypeが対応していること
+                // Typeが対応しているか
                 if (ColumnType.ConvertJSchemaTypeToSqlColumnType(property.Value.Type ?? JSchemaType.None) is null)
                 {
                     return (null, new DataSchemaDefinitionError("プロパティ内のタイプは string, number, integer, boolean のみ対応しています。"));
                 }
-                // idカラムが含まれていること
+
                 if (property.Key == "id")
                 {
+                    // idプロパティが含まれているか
                     hasId = true;
+
+                    // idプロパティの型がstringであるか
+                    if (property.Value.Type != JSchemaType.String)
+                    {
+                        return (null, new DataSchemaDefinitionError("「id」プロパティのタイプはstringにする必要があります。"));
+                    }
                 }
-                // カラム名がルールに従っていること
+                // プロパティ名がルールに従っているか
                 if (!Regex.IsMatch(property.Key, ColumnRagex))
                 {
-                    return (null, new DataSchemaDefinitionError("値の名前が命名規則に従っていません。"));
+                    return (null, new DataSchemaDefinitionError("プロパティ名が命名規則に従っていません。"));
                 }
             }
 
-            // idカラムが含まれていなかった場合
+            // idプロパティが含まれているか
             if (!hasId)
             {
-                return (null, new DataSchemaDefinitionError("値「id」を含める必要があります。"));
+                return (null, new DataSchemaDefinitionError("「id」プロパティを含める必要があります。"));
             }
 
-            // idカラムがRequiredになっているか確認
+            // idプロパティがRequiredになっているか
             if (jSchema.Required.FirstOrDefault(name => name == "id") is null)
             {
-                return (null, new DataSchemaDefinitionError("値「id」はRequiredに指定する必要があります。"));
+                return (null, new DataSchemaDefinitionError("「id」プロパティはRequiredに指定する必要があります。"));
             }
-
-            // TODO: idカラムの型についても検討したい
 
             // additionalPropertiesを強制的にfalseにする
             jSchema.AllowAdditionalProperties = false;
