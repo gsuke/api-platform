@@ -5,19 +5,29 @@
 
 ※ 開発中
 
-== DEMO
+== Demo
 
-. ToDo管理のためのリソースを作成します。
+. 試しに、ToDo管理のためのリソース「**todo**」を作成してみます。
 +
 image::docs/imgs/demo-001.png[]
 +
-.リソースのスキーマの詳細
+.todoリソースのデータスキーマの詳細
 |===
 |プロパティ名|型|役割
 
 |id|文字列|主キーになる
 |task_name|文字列|タスクの名前
 |===
+
+. 作成したToDo管理リソースに対して、Postメソッドを実行してタスクを追加します。
++
+image::docs/imgs/demo-002.png[]
+
+. Getメソッドを実行することで、追加したタスク一覧を確認できます。
++
+image::docs/imgs/demo-003.png[]
+
+. 他にもDeleteなどのCRUDが実装されています。データスキーマを好きな形に変更することによって、様々なユースケースで活用できます。
 
 == Usage
 
@@ -59,6 +69,10 @@ image::docs/imgs/installation-001.png[]
 image::docs/imgs/installation-002.png[]
 
 === Tutorials
+
+※ 執筆中
+
+=== Documents
 
 ※ 執筆中
 
