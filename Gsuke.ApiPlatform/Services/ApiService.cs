@@ -80,9 +80,9 @@ public class ApiService : IApiService
 
         // 入力値がデータスキーマに沿っているかを確認
         var jItem = JObject.FromObject(item);
-        if (!jItem.IsValid(dataSchema)) // TODO: エラーメッセージを取得してErrorに流そう
+        if (!jItem.IsValid(dataSchema, out IList<string> errorMessages))
         {
-            return new DataSchemaValidationError();
+            return new DataSchemaValidationError(String.Join(" ", errorMessages));
         }
 
         // id値を取得

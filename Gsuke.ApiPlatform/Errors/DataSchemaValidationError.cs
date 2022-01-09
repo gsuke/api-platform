@@ -6,5 +6,10 @@ namespace Gsuke.ApiPlatform.Errors
         {
             Message = $"データの形式がデータスキーマに対応していません。";
         }
+
+        public DataSchemaValidationError(string message) : this()
+        {
+            Message += message;
+        }
     }
 }
