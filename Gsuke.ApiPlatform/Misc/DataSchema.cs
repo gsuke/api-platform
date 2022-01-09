@@ -52,16 +52,24 @@ namespace Gsuke.ApiPlatform.Misc
                 {
                     return (null, new DataSchemaDefinitionError("値の名前が命名規則に従っていません。"));
                 }
-
             }
+
+            // idカラムが含まれていなかった場合
             if (!hasId)
             {
                 return (null, new DataSchemaDefinitionError("値「id」を含める必要があります。"));
             }
 
+            // idカラムがRequiredになっているか確認
+            if (jSchema.Required.FirstOrDefault(name => name == "id") is null)
+            {
+                return (null, new DataSchemaDefinitionError("値「id」はRequiredに指定する必要があります。"));
+            }
+
+            // TODO: idカラムの型についても検討したい
+
             // additionalPropertiesを強制的にfalseにする
             jSchema.AllowAdditionalProperties = false;
-            // TODO: 他にも前処理が必要なはず
 
             return (jSchema, new NoError());
         }
