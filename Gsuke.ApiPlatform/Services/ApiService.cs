@@ -65,15 +65,23 @@ public class ApiService : IApiService
     {
         // TODO: ID自動割り振り機能を実装したい
 
+        // リソースを取得
         var resource = _resourceService.Get(url);
         if (resource is null)
         {
             return new NotFoundError(url);
         }
 
-        if (_repository.Get(resource.container_id ?? throw new Exception(), item["id"]) is not null)
+        // id値を取得
+        dynamic? id;
+        if (!item.TryGetValue("id", out id))
         {
-            return new AlreadyExistsError($"{url}/{item["id"]}");
+            return new JsonIdIsNotIncludedError();
+        }
+
+        if (_repository.Get(resource.container_id ?? throw new Exception(), id) is not null)
+        {
+            return new AlreadyExistsError($"{url}/{id}");
         }
 
         // データスキーマを取得
