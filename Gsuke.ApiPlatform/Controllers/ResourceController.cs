@@ -60,4 +60,11 @@ public class ResourceController : ControllerBase
         }
         return CreatedAtAction(nameof(Get), new { url = resource.url }, resource);
     }
+
+    [HttpDelete]
+    public IActionResult Delete()
+    {
+        _service.DeleteAll();
+        return NoContent();
+    }
 }

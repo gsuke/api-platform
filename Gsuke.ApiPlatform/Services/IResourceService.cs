@@ -10,5 +10,6 @@ namespace Gsuke.ApiPlatform.Services
         Error? Delete(string url);
         Error? Create(ResourceDto resourceDto);
         ResourceDto EntityToDto(ResourceEntity resourceEntity);
+        void DeleteAll();
     }
 }

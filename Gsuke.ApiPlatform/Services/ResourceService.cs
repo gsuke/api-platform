@@ -87,5 +87,18 @@ public class ResourceService : IResourceService
         return _mapper.Map<ResourceDto>(resourceEntity);
     }
 
+    public void DeleteAll()
+    {
+        var resources = GetList();
+        foreach (var resource in resources)
+        {
+            if (String.IsNullOrEmpty(resource.url))
+            {
+                continue;
+            }
+            Delete(resource.url);
+        }
+    }
+
 
 }
