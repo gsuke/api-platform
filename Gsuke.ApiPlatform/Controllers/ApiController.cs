@@ -59,18 +59,9 @@ public class ApiController : ControllerBase
         {
             // リクエストボディを辞書型で取得
             var body = await reader.ReadToEndAsync();
-            Dictionary<string, dynamic> item;
-            try
-            {
-                item = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(body) ?? throw new JsonException();
-            }
-            catch (JsonException)
-            {
-                return BadRequest(new JsonError());
-            };
 
             // Post処理
-            var error = _service.Post(url, item);
+            var error = _service.Post(url, body);
             if (error is NotFoundError)
             {
                 return NotFound(error);

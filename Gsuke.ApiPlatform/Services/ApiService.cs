@@ -1,4 +1,3 @@
-using System.Threading.Tasks.Dataflow;
 using Gsuke.ApiPlatform.Repositories;
 using Gsuke.ApiPlatform.Errors;
 using Gsuke.ApiPlatform.Misc;
@@ -100,6 +99,21 @@ public class ApiService : IApiService
 
         _repository.Post(resource.container_id ?? throw new Exception(), item);
         return null;
+    }
+
+    public Error? Post(string url, string itemJson)
+    {
+        Dictionary<string, dynamic> item;
+        try
+        {
+            item = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(itemJson) ?? throw new JsonException();
+        }
+        catch (JsonException)
+        {
+            return new JsonError();
+        }
+
+        return Post(url, item);
     }
 
 }
