@@ -20,9 +20,11 @@ namespace Gsuke.ApiPlatform.Repositories
 
         public int Create(ResourceEntity resource, JSchema dataSchema)
         {
+            // CREATE TABLE文の土台を作成
             var sql = new StringBuilder();
             sql.Append($"CREATE TABLE IF NOT EXISTS \"{GetContainerName(resource.container_id ?? throw new Exception())}\" (");
 
+            // カラムをすべて定義する
             var properties = new List<string>();
             foreach (KeyValuePair<string, JSchema> property in dataSchema.Properties)
             {
@@ -31,11 +33,16 @@ namespace Gsuke.ApiPlatform.Repositories
                 // 制約を付与
                 if (property.Key == "id")
                 {
+                    // idカラムは主キーとなる
                     tempStr += " PRIMARY KEY";
                 }
                 else
                 {
-                    tempStr += " NOT NULL";
+                    // idカラム以外: データスキーマを参照し、requiredになっていればNOT NULL制約をつける
+                    if (dataSchema.Required.FirstOrDefault(name => name == property.Key) is not null)
+                    {
+                        tempStr += " NOT NULL";
+                    }
                 }
                 properties.Add(tempStr);
             }
