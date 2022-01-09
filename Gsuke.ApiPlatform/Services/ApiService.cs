@@ -71,18 +71,6 @@ public class ApiService : IApiService
             return new NotFoundError(url);
         }
 
-        // id値を取得
-        dynamic? id;
-        if (!item.TryGetValue("id", out id))
-        {
-            return new JsonIdIsNotIncludedError();
-        }
-
-        if (_repository.Get(resource.container_id ?? throw new Exception(), id) is not null)
-        {
-            return new AlreadyExistsError($"{url}/{id}");
-        }
-
         // データスキーマを取得
         var (dataSchema, error) = DataSchema.ParseDataSchema(resource.data_schema ?? throw new Exception());
         if (dataSchema is null)
@@ -95,6 +83,20 @@ public class ApiService : IApiService
         if (!jItem.IsValid(dataSchema)) // TODO: エラーメッセージを取得してErrorに流そう
         {
             return new DataSchemaValidationError();
+        }
+
+        // id値を取得
+        dynamic? id;
+        if (!item.TryGetValue("id", out id))
+        {
+            // TODO: 今後は「入力値がデータスキーマに沿っているかを確認」で弾くので、Exceptionを発行して良い。
+            return new DataSchemaValidationError();
+        }
+
+        // 既に存在しているか
+        if (_repository.Get(resource.container_id ?? throw new Exception(), id) is not null)
+        {
+            return new AlreadyExistsError($"{url}/{id}");
         }
 
         _repository.Post(resource.container_id ?? throw new Exception(), item);
