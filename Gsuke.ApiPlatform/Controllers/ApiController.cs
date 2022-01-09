@@ -62,11 +62,11 @@ public class ApiController : ControllerBase
             Dictionary<string, dynamic> item;
             try
             {
-                item = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(body) ?? throw new JsonSerializationException();
+                item = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(body) ?? throw new JsonException();
             }
-            catch (Exception)
+            catch (JsonException)
             {
-                return BadRequest(new DataSchemaValidationError());
+                return BadRequest(new JsonError());
             };
 
             // Post処理
