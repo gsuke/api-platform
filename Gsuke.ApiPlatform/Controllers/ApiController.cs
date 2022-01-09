@@ -50,6 +50,17 @@ public class ApiController : ControllerBase
         return NoContent();
     }
 
+    [HttpDelete("{url}")]
+    public IActionResult DeleteAll(string url)
+    {
+        var error = _service.DeleteAll(url);
+        if (error is not NoError)
+        {
+            return NotFound(error);
+        }
+        return NoContent();
+    }
+
     // TODO: 全体的に非同期化するべきだと思う
     [HttpPost("{url}")]
     public async Task<IActionResult> Post(string url)

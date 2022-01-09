@@ -103,6 +103,22 @@ public class ApiService : IApiService
         return new NoError();
     }
 
+    public Error DeleteAll(string url)
+    {
+        var (items, error) = GetList(url);
+        if (items is null)
+        {
+            return error;
+        }
+
+        foreach (IDictionary<string, object> item in items)
+        {
+            Delete(url, (string)item["id"]);
+        }
+
+        return new NoError();
+    }
+
     public (Dictionary<string, dynamic>?, Error) JsonToDictionary(string json)
     {
         // 辞書型に変換

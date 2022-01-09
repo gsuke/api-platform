@@ -8,6 +8,7 @@ namespace Gsuke.ApiPlatform.Services
         (dynamic?, Error) Get(string url, string id);
         Error Delete(string url, string id);
         Error Post(string url, Dictionary<string, dynamic> item);
+        Error DeleteAll(string url);
         (Dictionary<string, dynamic>?, Error) JsonToDictionary(string json);
     }
 }
