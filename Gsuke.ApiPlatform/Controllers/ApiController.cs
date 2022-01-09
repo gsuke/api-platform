@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Gsuke.ApiPlatform.Services;
 using Gsuke.ApiPlatform.Errors;
-using Newtonsoft.Json;
 
 namespace Gsuke.ApiPlatform.Controllers;
 
@@ -22,7 +21,7 @@ public class ApiController : ControllerBase
     public ActionResult<List<dynamic>> GetList(string url)
     {
         var (result, error) = _service.GetList(url);
-        if (result is null || error is NotFoundError)
+        if (result is null)
         {
             return NotFound(error);
         }
@@ -33,7 +32,7 @@ public class ApiController : ControllerBase
     public ActionResult<dynamic> Get(string url, string id)
     {
         var (result, error) = _service.Get(url, id);
-        if (result is null || error is NotFoundError)
+        if (result is null)
         {
             return NotFound(error);
         }
@@ -44,7 +43,7 @@ public class ApiController : ControllerBase
     public IActionResult Delete(string url, string id)
     {
         var error = _service.Delete(url, id);
-        if (error is NotFoundError)
+        if (error is not NoError)
         {
             return NotFound(error);
         }
@@ -62,19 +61,23 @@ public class ApiController : ControllerBase
 
             // Post処理
             var error = _service.Post(url, body);
-            if (error is NotFoundError)
+            if (error is not NoError)
             {
-                return NotFound(error);
+                if (error is NotFoundError)
+                {
+                    return NotFound(error);
+                }
+                else if (error is AlreadyExistsError)
+                {
+                    return Conflict(error);
+                }
+                else
+                {
+                    return BadRequest(error);
+                }
             }
-            else if (error is AlreadyExistsError)
-            {
-                return Conflict(error);
-            }
-            else if (error is not null)
-            {
-                return BadRequest(error);
-            }
-            return NoContent();
+            // TODO: 正しいLocationを返したい。そのためにはController側でidを知る必要がある。
+            return CreatedAtAction(nameof(GetList), new { url = url }, body);
         }
     }
 }

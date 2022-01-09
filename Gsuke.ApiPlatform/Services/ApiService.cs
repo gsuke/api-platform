@@ -20,17 +20,17 @@ public class ApiService : IApiService
         _repository = apiRepository;
     }
 
-    public (List<dynamic>?, Error?) GetList(string url)
+    public (List<dynamic>?, Error) GetList(string url)
     {
         var resource = _resourceService.Get(url);
         if (resource is null)
         {
             return (null, new NotFoundError(url));
         }
-        return (_repository.GetList(resource.container_id ?? throw new Exception()), null);
+        return (_repository.GetList(resource.container_id ?? throw new Exception()), new NoError());
     }
 
-    public (dynamic?, Error?) Get(string url, string id)
+    public (dynamic?, Error) Get(string url, string id)
     {
         var resource = _resourceService.Get(url);
         if (resource is null)
@@ -42,10 +42,10 @@ public class ApiService : IApiService
         {
             return (null, new NotFoundError($"{url}/{id}"));
         }
-        return (item, null);
+        return (item, new NoError());
     }
 
-    public Error? Delete(string url, string id)
+    public Error Delete(string url, string id)
     {
         var resource = _resourceService.Get(url);
         if (resource is null)
@@ -57,10 +57,10 @@ public class ApiService : IApiService
             return new NotFoundError($"{url}/{id}");
         }
         _repository.Delete(resource.container_id ?? throw new Exception(), id);
-        return null;
+        return new NoError();
     }
 
-    public Error? Post(string url, Dictionary<string, dynamic> item)
+    public Error Post(string url, Dictionary<string, dynamic> item)
     {
         // TODO: ID自動割り振り機能を実装したい
 
@@ -71,23 +71,11 @@ public class ApiService : IApiService
             return new NotFoundError(url);
         }
 
-        // id値を取得
-        dynamic? id;
-        if (!item.TryGetValue("id", out id))
-        {
-            return new JsonIdIsNotIncludedError();
-        }
-
-        if (_repository.Get(resource.container_id ?? throw new Exception(), id) is not null)
-        {
-            return new AlreadyExistsError($"{url}/{id}");
-        }
-
         // データスキーマを取得
-        var dataSchema = DataSchema.ParseDataSchema(resource.data_schema ?? throw new Exception());
+        var (dataSchema, error) = DataSchema.ParseDataSchema(resource.data_schema ?? throw new Exception());
         if (dataSchema is null)
         {
-            throw new Exception();
+            return error;
         }
 
         // 入力値がデータスキーマに沿っているかを確認
@@ -97,11 +85,25 @@ public class ApiService : IApiService
             return new DataSchemaValidationError();
         }
 
+        // id値を取得
+        dynamic? id;
+        if (!item.TryGetValue("id", out id))
+        {
+            // TODO: 今後は「入力値がデータスキーマに沿っているかを確認」で弾くので、Exceptionを発行して良い。
+            return new DataSchemaValidationError();
+        }
+
+        // 既に存在しているか
+        if (_repository.Get(resource.container_id ?? throw new Exception(), id) is not null)
+        {
+            return new AlreadyExistsError($"{url}/{id}");
+        }
+
         _repository.Post(resource.container_id ?? throw new Exception(), item);
-        return null;
+        return new NoError();
     }
 
-    public Error? Post(string url, string itemJson)
+    public Error Post(string url, string itemJson)
     {
         Dictionary<string, dynamic> item;
         try

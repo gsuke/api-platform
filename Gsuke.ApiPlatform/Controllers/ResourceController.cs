@@ -39,9 +39,12 @@ public class ResourceController : ControllerBase
     public IActionResult Delete(string url)
     {
         var error = _service.Delete(url);
-        if (error is NotFoundError)
+        if (error is not NoError)
         {
-            return NotFound(error);
+            if (error is NotFoundError)
+            {
+                return NotFound(error);
+            }
         }
         return NoContent();
     }
@@ -50,13 +53,16 @@ public class ResourceController : ControllerBase
     public IActionResult Create(ResourceDto resource)
     {
         var error = _service.Create(resource);
-        if (error is AlreadyExistsError)
+        if (error is not NoError)
         {
-            return Conflict(error);
-        }
-        if (error is DataSchemaDefinitionError)
-        {
-            return BadRequest(error);
+            if (error is AlreadyExistsError)
+            {
+                return Conflict(error);
+            }
+            else
+            {
+                return BadRequest(error);
+            }
         }
         return CreatedAtAction(nameof(Get), new { url = resource.url }, resource);
     }

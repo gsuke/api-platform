@@ -61,7 +61,6 @@ VALUES (
 )";
 
             // SQL文のINSERT INTO句とVALUES句の中を作成
-            // TODO: SQLインジェクション対策が必要
             var sortedItem = new SortedDictionary<string, dynamic>(item);
             sql = String.Format(sql, String.Join(",\n", sortedItem.Keys), String.Join(",\n", sortedItem.Keys.Select(x => $"@{x}")));
 

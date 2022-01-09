@@ -7,8 +7,8 @@ namespace Gsuke.ApiPlatform.Services
     {
         List<ResourceEntity> GetList();
         ResourceEntity? Get(string url);
-        Error? Delete(string url);
-        Error? Create(ResourceDto resourceDto);
+        Error Delete(string url);
+        Error Create(ResourceDto resourceDto);
         ResourceDto EntityToDto(ResourceEntity resourceEntity);
         void DeleteAll();
     }

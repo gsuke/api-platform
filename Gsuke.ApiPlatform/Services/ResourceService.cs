@@ -42,7 +42,7 @@ public class ResourceService : IResourceService
         return resource;
     }
 
-    public Error? Delete(string url)
+    public Error Delete(string url)
     {
         var resource = _resourceRepository.Get(url);
         if (resource is null)
@@ -52,10 +52,10 @@ public class ResourceService : IResourceService
 
         _resourceRepository.Delete(url);
         _containerRepository.Delete(resource.container_id ?? throw new Exception());
-        return null;
+        return new NoError();
     }
 
-    public Error? Create(ResourceDto resourceDto)
+    public Error Create(ResourceDto resourceDto)
     {
         if (String.IsNullOrEmpty(resourceDto.url) || String.IsNullOrEmpty(resourceDto.dataSchema))
         {
@@ -68,10 +68,10 @@ public class ResourceService : IResourceService
         }
 
         // データスキーマの解析
-        JSchema? dataSchema = DataSchema.ParseDataSchema(resourceDto.dataSchema);
+        var (dataSchema, error) = DataSchema.ParseDataSchema(resourceDto.dataSchema);
         if (dataSchema is null)
         {
-            return new DataSchemaDefinitionError();
+            return error;
         }
 
         var resourceEntity = _mapper.Map<ResourceEntity>(resourceDto);
@@ -79,7 +79,7 @@ public class ResourceService : IResourceService
 
         _containerRepository.Create(resourceEntity, dataSchema);
         _resourceRepository.Create(resourceEntity);
-        return null;
+        return new NoError();
     }
 
     public ResourceDto EntityToDto(ResourceEntity resourceEntity)
