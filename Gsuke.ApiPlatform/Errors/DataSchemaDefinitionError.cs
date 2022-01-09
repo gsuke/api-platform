@@ -6,5 +6,10 @@ namespace Gsuke.ApiPlatform.Errors
         {
             Message = $"データスキーマの形式が不正です。";
         }
+
+        public DataSchemaDefinitionError(string message) : this()
+        {
+            Message += message;
+        }
     }
 }

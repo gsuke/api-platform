@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Gsuke.ApiPlatform.Services;
 using Gsuke.ApiPlatform.Errors;
-using Newtonsoft.Json;
 
 namespace Gsuke.ApiPlatform.Controllers;
 
@@ -61,6 +60,7 @@ public class ApiController : ControllerBase
             var body = await reader.ReadToEndAsync();
 
             // Post処理
+            // TODO: エラー受け取りを改善する必要あり
             var error = _service.Post(url, body);
             if (error is NotFoundError)
             {
