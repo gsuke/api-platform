@@ -1,11 +1,19 @@
 using Newtonsoft.Json.Schema;
 using Gsuke.ApiPlatform.Errors;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace Gsuke.ApiPlatform.Misc
 {
     public class DataSchema
     {
+        // カラム名のルール
+        // - 英小文字・半角数字・アンダースコアのみ
+        // - 先頭に数字は不可
+        // - 1～32文字
+        // TODO: もう少し条件を緩和したい
+        public static string ColumnRagex { get; } = @"^[a-z_][a-z0-9_]{0,31}$";
+
         /// <summary>
         /// データスキーマ文字列の妥当性を検証し、JSchemaに変換する
         /// </summary>
@@ -39,6 +47,12 @@ namespace Gsuke.ApiPlatform.Misc
                 {
                     hasId = true;
                 }
+                // カラム名がルールに従っていること
+                if (!Regex.IsMatch(property.Key, ColumnRagex))
+                {
+                    return (null, new DataSchemaDefinitionError("値の名前が命名規則に従っていません。"));
+                }
+
             }
             if (!hasId)
             {
