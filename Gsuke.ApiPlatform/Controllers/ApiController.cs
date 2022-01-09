@@ -81,8 +81,7 @@ public class ApiController : ControllerBase
                     return BadRequest(error);
                 }
             }
-            // TODO: 正しいLocationを返したい。そのためにはController側でidを知る必要がある。
-            return CreatedAtAction(nameof(GetList), new { url = url }, body);
+            return CreatedAtAction(nameof(Get), new { url = url, id = item["id"] }, body);
         }
     }
 }
