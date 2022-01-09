@@ -58,9 +58,14 @@ public class ApiController : ControllerBase
         {
             // リクエストボディを辞書型で取得
             var body = await reader.ReadToEndAsync();
+            var (item, error) = _service.JsonToDictionary(body);
+            if (item is null)
+            {
+                return BadRequest(error);
+            }
 
             // Post処理
-            var error = _service.Post(url, body);
+            error = _service.Post(url, item);
             if (error is not NoError)
             {
                 if (error is NotFoundError)

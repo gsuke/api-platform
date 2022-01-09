@@ -103,19 +103,27 @@ public class ApiService : IApiService
         return new NoError();
     }
 
-    public Error Post(string url, string itemJson)
+    public (Dictionary<string, dynamic>?, Error) JsonToDictionary(string json)
     {
-        Dictionary<string, dynamic> item;
+        // 辞書型に変換
+        Dictionary<string, dynamic> result;
         try
         {
-            item = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(itemJson) ?? throw new JsonException();
+            result = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json) ?? throw new JsonException();
         }
         catch (JsonException)
         {
-            return new JsonError();
+            return (null, new JsonError());
         }
 
-        return Post(url, item);
+        // idが含まれているか確認する
+        if (!result.ContainsKey("id"))
+        {
+            // idが含まれていない場合はデータスキーマに沿っていないので、DataSchemaValidationErrorを返す
+            return (null, new DataSchemaValidationError("値「id」を含める必要があります。"));
+        }
+
+        return (result, new NoError());
     }
 
 }
