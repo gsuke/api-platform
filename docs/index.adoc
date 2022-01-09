@@ -1,0 +1,3 @@
+= API Platform - Documents
+
+API Platformのドキュメントです。執筆中。

@@ -74,7 +74,7 @@ image::docs/imgs/installation-002.png[]
 
 === Documents
 
-※ 執筆中
+link:docs/index.adoc[※ 執筆中]
 
 == License
 
