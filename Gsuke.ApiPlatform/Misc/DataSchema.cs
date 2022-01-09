@@ -19,7 +19,6 @@ namespace Gsuke.ApiPlatform.Misc
         /// </summary>
         /// <param name="dataSchema"></param>
         /// <returns>正しければJSchemaを返す、不正ならばnullを返す</returns>
-        // TODO: このメソッドからエラー詳細を返すべき
         public static (JSchema?, Error) ParseDataSchema(string dataSchema)
         {
             // パースする

@@ -81,7 +81,7 @@ public class ApiController : ControllerBase
                     return BadRequest(error);
                 }
             }
-            return CreatedAtAction(nameof(Get), new { url = url, id = item["id"] }, body);
+            return CreatedAtAction(nameof(Get), new { url = url, id = item["id"] }, item);
         }
     }
 }
