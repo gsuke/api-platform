@@ -1,6 +1,6 @@
 namespace Gsuke.ApiPlatform.Errors
 {
-    public class NoError : JsonError
+    public class NoError : Error
     {
         public NoError()
         {
